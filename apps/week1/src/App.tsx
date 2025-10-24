@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import TrafficChart, { ChartData } from './components/TrafficChart';
 import ChartFilter from './components/ChartFilter';
 import styles from './App.module.css';
