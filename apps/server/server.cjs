@@ -2,9 +2,12 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const fs = require('fs');
 
 const app = express();
 const port = 3000;
+
+app.use(express.static('public'));
 
 // CORS 설정: 프론트엔드(웹페이지)에서 서버로 요청을 보낼 수 있도록 허용
 app.use(
@@ -43,8 +46,27 @@ app.post('/upload', upload.single('file'), (req, res) => {
   });
 });
 
+app.get('/api/week1/traffic', (req, res) => {
+  try {
+    const period = +(req.query.period || '1');
+
+    const data = JSON.parse(fs.readFileSync('./public/traffic.json', 'utf-8'));
+    const sliceStart = period === 0 ? 0 : data.length - period;
+    const sliced = data.slice(sliceStart);
+
+    res.status(200).json({
+      success: true,
+      data: sliced,
+    });
+  } catch(error) {
+    res.status(500).json({
+      success: false,
+      error,
+    });
+  }
+});
+
 // 서버 시작
 app.listen(port, () => {
   console.log(`🚀 서버가 http://localhost:${port} 에서 실행 중입니다.`);
-  console.log(`프론트엔드에서 /upload 엔드포인트로 파일을 전송해주세요.`);
 });

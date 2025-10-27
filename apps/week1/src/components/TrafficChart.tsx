@@ -9,11 +9,11 @@ export interface ChartData {
   data: number[];
 }
 
-interface Props {
-  chartData: ChartData;
+interface CreateChartProps extends ChartData {
+  canvas: HTMLCanvasElement;
 }
 
-function createChart({ canvas, label, labels, data }) {
+function createChart({ canvas, label, labels, data }: CreateChartProps) {
   new Chart(canvas, {
     type: 'bar',
     data: {
@@ -36,6 +36,10 @@ function createChart({ canvas, label, labels, data }) {
   });
 }
 
+interface Props {
+  chartData: ChartData;
+}
+
 export default function TrafficChart({ chartData }: Props) {
   useEffect(() => {
     const canvas = document.getElementById(CANVAS_ID) as HTMLCanvasElement;
@@ -49,7 +53,12 @@ export default function TrafficChart({ chartData }: Props) {
       return;
     }
 
-    createChart({ canvas, label: chartData.label, labels: chartData.labels, data: chartData.data });
+    createChart({
+      canvas,
+      label: chartData.label,
+      labels: chartData.labels,
+      data: chartData.data,
+    });
   }, [chartData]);
 
   return <canvas id={CANVAS_ID}></canvas>;

@@ -52,13 +52,7 @@ importers:
         specifier: ^7.1.7
         version: 7.1.11(@types/node@24.9.1)
 
-  apps/week1:
-    dependencies:
-      chart.js:
-        specifier: ^4.5.1
-        version: 4.5.1
-
-  apps/week2:
+  apps/server:
     dependencies:
       cors:
         specifier: ^2.8.5
@@ -69,6 +63,14 @@ importers:
       multer:
         specifier: ^2.0.2
         version: 2.0.2
+
+  apps/week1:
+    dependencies:
+      chart.js:
+        specifier: ^4.5.1
+        version: 4.5.1
+
+  apps/week2: {}
 
   apps/week3:
     dependencies:
