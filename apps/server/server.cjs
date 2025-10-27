@@ -31,7 +31,28 @@ const storage = multer.diskStorage({
 // Multer 인스턴스 생성
 const upload = multer({ storage: storage });
 
-// 파일 업로드 처리 엔드포인트
+// Week1 API - 트래픽 데이터
+app.get('/api/week1/traffic', (req, res) => {
+  try {
+    const period = +(req.query.period || '1');
+
+    const data = JSON.parse(fs.readFileSync('./public/traffic.json', 'utf-8'));
+    const sliceStart = period === 0 ? 0 : data.length - period;
+    const sliced = data.slice(sliceStart);
+
+    res.status(200).json({
+      success: true,
+      data: sliced,
+    });
+  } catch(error) {
+    res.status(500).json({
+      success: false,
+      error,
+    });
+  }
+});
+
+// Week3 API - 파일 업로드 처리 엔드포인트
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).send('업로드된 파일이 없습니다.');
@@ -46,17 +67,44 @@ app.post('/upload', upload.single('file'), (req, res) => {
   });
 });
 
-app.get('/api/week1/traffic', (req, res) => {
+// Week4 API - 사용자 목록 데이터
+app.get('/api/week4/users', (req, res) => {
   try {
-    const period = +(req.query.period || '1');
+    const { name, sort } = req.query;
+    const page = +(req.query.page || 1);
+    const count = +(req.query.count || 10);
 
-    const data = JSON.parse(fs.readFileSync('./public/traffic.json', 'utf-8'));
-    const sliceStart = period === 0 ? 0 : data.length - period;
-    const sliced = data.slice(sliceStart);
+    const userListData = JSON.parse(fs.readFileSync('./public/users.json', 'utf-8'));
+    const users = name ? userListData.filter((user) => user.name.indexOf(name) > -1) : userListData;
+    if (sort) {
+      const [field, type] = sort.split(',');
+      if (type === 'desc') {
+        users.sort((a, b) => {
+          const aVal = field === 'id' ? +a[field] : a[field];
+          const bVal = field === 'id' ? +b[field] : b[field];
+          if (aVal < bVal) return 1;
+          if (aVal > bVal) return -1;
+          return 0;
+        });
+      } else {
+        users.sort((a, b) => {
+          const aVal = field === 'id' ? +a[field] : a[field];
+          const bVal = field === 'id' ? +b[field] : b[field];
+          if (aVal < bVal) return -1;
+          if (aVal > bVal) return 1;
+          return 0;
+        });
+      }
+    }
+
+    const start = ((page || 1) - 1) * (count || 10);
+    const end = start + (count || 10);
+    const sliced = users.slice(start, end);
 
     res.status(200).json({
       success: true,
       data: sliced,
+      total: users.length,
     });
   } catch(error) {
     res.status(500).json({

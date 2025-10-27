@@ -1,0 +1,15 @@
+.form {
+  display: flex;
+  gap: 8px;
+  color: #212121;
+  box-sizing: border-box;
+
+  > input[type="text"] {
+    width: 100%;
+    padding: 8px 4px;
+    border: solid 1px #9E9E9E;
+    border-radius: 4px;
+    outline-style: none;
+    box-sizing: border-box;
+  }
+}
