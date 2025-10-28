@@ -18,6 +18,7 @@ export default function UserCard({
   onChangeReqParam,
 }: Props) {
   const [users, setUsers] = useState<User[]>([]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const lockRef = useRef(false);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function UserCard({
         if (result.success) {
           updateTotal(result.total);
           if (reqParam.pager.page === 1) {
+            if (containerRef.current) containerRef.current.scrollTo(0, 0);
             setUsers(result.data);
           } else {
             setUsers((prev) => ([...prev, ...result.data]))
@@ -57,7 +59,7 @@ export default function UserCard({
   }, hasNextPage);
 
   return (
-    <div className={styles.container}>
+    <div ref={containerRef} className={styles.container}>
       {users.map((user) => {
         const classNames = [styles.card, user.status === '비활성' && styles.inactive]
               .filter(Boolean)
