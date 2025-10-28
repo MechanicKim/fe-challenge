@@ -48,6 +48,10 @@ export default function App() {
             setReqParam((prev) => ({
               ...prev,
               status: nextStatus,
+              pager: {
+                ...prev.pager,
+                page: 1,
+              },
             }));
           }}
         />

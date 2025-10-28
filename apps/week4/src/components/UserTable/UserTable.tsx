@@ -42,11 +42,17 @@ export default function UserTable({
     if (nextSort) {
       onChangeReqParam({
         sort: nextSort,
-        pager,
+        pager: {
+          ...pager,
+          page: 1,
+        },
       });
     } else {
       onChangeReqParam({
-        pager,
+        pager: {
+          ...pager,
+          page: 1,
+        },
       });
     }
   };
