@@ -26,3 +26,8 @@
     font-size: 0.8rem;
   }
 }
+
+.observer {
+  padding: 8px 0;
+  text-align: center;
+}

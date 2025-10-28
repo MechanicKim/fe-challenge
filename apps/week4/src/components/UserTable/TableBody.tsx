@@ -1,4 +1,4 @@
-import type { User } from '../../App';
+import type { User } from '../../types';
 import styles from './UserTable.module.css';
 
 interface Props {

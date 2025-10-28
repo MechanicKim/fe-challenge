@@ -1,4 +1,4 @@
-import type { IPager } from '../../App';
+import type { IPager } from '../../types';
 import styles from './UserTable.module.css';
 
 interface Props {

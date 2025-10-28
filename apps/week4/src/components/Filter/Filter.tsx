@@ -1,4 +1,4 @@
-import type { Status } from '../../App';
+import type { Status } from '../../types';
 import styles from './Filter.module.css';
 
 interface Props {

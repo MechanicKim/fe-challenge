@@ -1,4 +1,4 @@
-import type { Sort } from '../../App';
+import type { Sort } from '../../types';
 
 interface Props {
   sort?: Sort;
