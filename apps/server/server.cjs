@@ -70,16 +70,22 @@ app.post('/upload', upload.single('file'), (req, res) => {
 // Week4 API - 사용자 목록 데이터
 app.get('/api/week4/users', (req, res) => {
   try {
-    const { name, sort } = req.query;
+    const { status, name, sort } = req.query;
     const page = +(req.query.page || 1);
     const count = +(req.query.count || 10);
 
     const userListData = JSON.parse(fs.readFileSync('./public/users.json', 'utf-8'));
     const users = name ? userListData.filter((user) => user.name.indexOf(name) > -1) : userListData;
+    const filtered = users.filter((user) => {
+      if (status === 'all') return true;
+      if (status === 'active') return user.status === '활성';
+      return user.status === '비활성';
+    });
+
     if (sort) {
       const [field, type] = sort.split(',');
       if (type === 'desc') {
-        users.sort((a, b) => {
+        filtered.sort((a, b) => {
           const aVal = field === 'id' ? +a[field] : a[field];
           const bVal = field === 'id' ? +b[field] : b[field];
           if (aVal < bVal) return 1;
@@ -87,7 +93,7 @@ app.get('/api/week4/users', (req, res) => {
           return 0;
         });
       } else {
-        users.sort((a, b) => {
+        filtered.sort((a, b) => {
           const aVal = field === 'id' ? +a[field] : a[field];
           const bVal = field === 'id' ? +b[field] : b[field];
           if (aVal < bVal) return -1;
@@ -99,12 +105,12 @@ app.get('/api/week4/users', (req, res) => {
 
     const start = ((page || 1) - 1) * (count || 10);
     const end = start + (count || 10);
-    const sliced = users.slice(start, end);
+    const sliced = filtered.slice(start, end);
 
     res.status(200).json({
       success: true,
       data: sliced,
-      total: users.length,
+      total: filtered.length,
     });
   } catch(error) {
     res.status(500).json({

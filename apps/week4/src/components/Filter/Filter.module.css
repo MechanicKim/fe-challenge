@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+
+  > div > button {
+    padding: 8px;
+    border-style: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0);
+    cursor: pointer;
+
+    &.selected {
+      background-color: #E0E0E0;
+    }
+  }
+}

@@ -8,11 +8,6 @@
   overflow-y: auto;
 }
 
-.total {
-  font-size: 0.8rem;
-  text-align: right;
-}
-
 .table {
   width: 100%;
   font-size: 0.9rem;
@@ -39,12 +34,9 @@
       background-color: #FFEBEE;
     }
 
-    > td:nth-child(1) {
-      text-align: center;
-    }
-
     > td {
       padding: 8px;
+      text-align: center;
     }
 
     > .userInfo {
@@ -79,6 +71,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     &:first-child {
       margin-left: auto;

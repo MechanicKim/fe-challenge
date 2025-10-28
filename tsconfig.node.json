@@ -20,7 +20,9 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["vite.config.ts"]
+  "include": ["apps/**/vite.config.ts"]
 }
