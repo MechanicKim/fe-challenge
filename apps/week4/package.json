@@ -8,9 +8,5 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "chart.js": "^4.5.1",
-    "react-intl": "^7.1.14"
   }
 }

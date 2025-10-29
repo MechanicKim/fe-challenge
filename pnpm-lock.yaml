@@ -77,21 +77,13 @@ importers:
 
   apps/week3:
     dependencies:
-      chart.js:
-        specifier: ^4.5.1
-        version: 4.5.1
       react-intl:
         specifier: ^7.1.14
         version: 7.1.14(react@19.2.0)(typescript@5.9.3)
 
-  apps/week4:
-    dependencies:
-      chart.js:
-        specifier: ^4.5.1
-        version: 4.5.1
-      react-intl:
-        specifier: ^7.1.14
-        version: 7.1.14(react@19.2.0)(typescript@5.9.3)
+  apps/week4: {}
+
+  apps/week5: {}
 
 packages:
 
