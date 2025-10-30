@@ -1,5 +1,4 @@
-import { SetStateAction } from 'react';
-import { Dispatch } from 'react';
+import type { SetStateAction, Dispatch } from 'react';
 import { LOCALE } from '../constants/locale';
 import styles from './Header.module.css';
 

@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-server": "pnpm -F @fe-challenge/server start",
+    "week1": "pnpm -F @fe-challenge/week1 dev",
+    "week2": "pnpm -F @fe-challenge/week2 dev",
+    "week3": "pnpm -F @fe-challenge/week3 dev",
+    "week4": "pnpm -F @fe-challenge/week4 dev",
+    "week5": "pnpm -F @fe-challenge/week5 dev"
   },
   "dependencies": {
     "react": "^19.1.1",

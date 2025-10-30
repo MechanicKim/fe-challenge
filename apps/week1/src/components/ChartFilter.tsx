@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
-import { Filter } from '../App';
+import type { Dispatch, SetStateAction } from 'react';
+import type { Filter } from '../App';
 
 import styles from './ChartFilter.module.css';
 
