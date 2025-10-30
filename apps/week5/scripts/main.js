@@ -1,78 +1,110 @@
-function Title({ text }) {
-  const h3 = document.createElement('h3');
-  h3.className = 'title';
-  h3.textContent = text;
-  return h3;
-}
+function Validator() {
+  const targetMap = {};
 
-function Input({ labelText, name, type }) {
-  const label = document.createElement('label');
-  label.setAttribute('for', name);
-  label.textContent = labelText;
+  function validateCheckBox(input) {
+    const { checked, dataset } = input;
+    const rules = dataset.rules.split('|');
 
-  const input = document.createElement('input');
-  input.type = type;
-  input.id = name;
-  input.name = name;
-  input.autocomplete = 'off';
+    for (const rule of rules) {
+      const [key] = rule.split(':');
 
-  const group = document.createElement('div');
-  group.className = 'input-group';
-  group.append(label, input);
+      if (key === 'required' && !checked) {
+        return { result: false, message: '필수 체크입니다.' };
+      }
+    }
 
-  return group;
-}
+    return { result: true };
+  }
 
-function CheckBox({ labelText }) {
-  const checkBox = Input({ labelText, name: 'approval', type: 'checkbox' });
-  checkBox.className = 'checkbox-group';
-  return checkBox;
-}
+  function validateTarget(input) {
+    const inputValue = input.value;
+    const rules = input.dataset.rules.split('|');
 
-function SignUpButton() {
-  const button = document.createElement('button');
-  button.type = 'submit';
-  button.textContent = '가입';
-  return button;
-}
+    if (input.type === 'checkbox') {
+      return validateCheckBox(input);
+    }
 
-function SignUpForm({ inputDataList, onSubmit }) {
-  const title = Title({ text: '회원 가입' });
-  const inputList = inputDataList.map(Input);
+    for (const rule of rules) {
+      const [key, value] = rule.split(':');
 
-  const form = document.createElement('form');
-  form.id = 'signup';
-  form.name = 'signupForm';
-  form.append(
-    title,
-    ...inputList,
-    CheckBox({
-      labelText: '서비스 이용을 위해 입력한 정보를 제공하는 것에 동의합니다.',
-    }),
-    SignUpButton()
-  );
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    onSubmit(e.target);
+      if (key === 'required' && !inputValue) {
+        return { result: false, message: '필수 입력입니다.' };
+      }
+
+      if (key === 'min' && inputValue.length < +value) {
+        return { result: false, message: `최소 ${value}자 입력입니다.` };
+      }
+
+      if (key === 'max' && inputValue.length > +value) {
+        return { result: false, message: `최대 ${value}자 입력입니다.` };
+      }
+
+      if (key === 'match' && inputValue !== targetMap[value].value) {
+        return { result: false, message: '입력 값이 일치하지 않습니다.' };
+      }
+    }
+
+    return { result: true };
+  }
+
+  return {
+    regist: (target) => {
+      const name = target.name;
+      targetMap[name] = target;
+    },
+    validate: (name) => {
+      const input = targetMap[name];
+      if (!input) {
+        console.error(`${name} - validator에 등록되지 않았습니다.`);
+      } else {
+        return validateTarget(input);
+      }
+    },
   };
-
-  return form;
 }
 
 window.onload = () => {
-  const inputDataList = [
-    { labelText: '이메일', name: 'email', type: 'text' },
-    { labelText: '비밀번호', name: 'password', type: 'password' },
-    { labelText: '비밀번호 확인', name: 'password2', type: 'password' },
-    { labelText: '회원 이름', name: 'name', type: 'text' },
-  ];
-  const signUpForm = SignUpForm({
-    inputDataList,
-    onSubmit: (form) => {
-      console.log(form);
-    },
-  });
+  const validator = Validator();
 
-  const root = document.getElementById('root');
-  root.append(signUpForm);
+  const form = document.signupForm;
+  const inputGroupList = [...form.querySelectorAll('.input-group')];
+  const checkBoxGroupList = [...form.querySelectorAll('.checkbox-group')];
+  const allInputGroups = [...inputGroupList, ...checkBoxGroupList];
+
+  for (const inputGroup of allInputGroups) {
+    const input = inputGroup.querySelector('input');
+    const error = inputGroup.querySelector('.error');
+
+    validator.regist(input);
+
+    if (input.type === 'checkbox') {
+      input.onchange = () => {
+        const { result, message } = validator.validate(input.name);
+        error.textContent = result ? '' : message;
+      };
+    } else {
+      input.onkeyup = () => {
+        const { result, message } = validator.validate(input.name);
+        error.textContent = result ? '' : message;
+      };
+    }
+  }
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const allInputGroups = [...inputGroupList, ...checkBoxGroupList];
+    for (const inputGroup of allInputGroups) {
+      const input = inputGroup.querySelector('input');
+      const error = inputGroup.querySelector('.error');
+      const { result, message } = validator.validate(input.name);
+      error.textContent = result ? '' : message;
+      if (!result) return;
+    }
+
+    console.log('유효성 검사 통과!');
+    const formData = new FormData(form);
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+  };
 };

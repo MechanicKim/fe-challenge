@@ -28,28 +28,44 @@ form#signup {
       width: 100px;
     }
 
-    > input {
+    > div {
       flex: 1;
+    }
+
+    > div > input {
       padding: 4px;
-      border: 1px solid #9E9E9E;
+      border: 1px solid #9e9e9e;
       border-radius: 4px;
+    }
+
+    > div > .error {
+      font-size: 0.75rem;
+      color: #d32f2f;
     }
   }
 
   > .checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    > div:nth-of-type(1) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-    > label {
-      flex: 1;
-      font-size: 0.9rem;
-      width: 100px;
+      > label {
+        flex: 1;
+        font-size: 0.9rem;
+        width: 100px;
+      }
+
+      > input {
+        width: 16px;
+        height: 16px;
+      }
     }
 
-    > input {
-      width: 16px;
-      height: 16px;
+    > .error {
+      font-size: 0.75rem;
+      text-align: right;
+      color: #d32f2f;
     }
   }
 
@@ -60,7 +76,7 @@ form#signup {
     border-radius: 4px;
     font-weight: bold;
     color: #212121;
-    background-color: #E0E0E0;
+    background-color: #e0e0e0;
     cursor: pointer;
   }
 }

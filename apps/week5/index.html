@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,7 +9,78 @@
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <form id="signup" name="signupForm">
+        <h3 class="title">회원 가입</h3>
+        <div class="input-group">
+          <label for="email">이메일</label>
+          <div>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              autocomplete="email"
+              data-rules="required"
+            />
+            <div class="error"></div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="password">비밀번호</label>
+          <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="off"
+              data-rules="required|min:12"
+            />
+            <div class="error"></div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="password2">비밀번호 확인</label>
+          <div>
+            <input
+              type="password"
+              id="password2"
+              name="password2"
+              autocomplete="off"
+              data-rules="required|min:12|match:password"
+            />
+            <div class="error"></div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="name">이름</label>
+          <div>
+            <input
+              type="text"
+              id="userName"
+              name="userName"
+              autocomplete="name"
+              data-rules="required"
+            />
+            <div class="error"></div>
+          </div>
+        </div>
+        <div class="checkbox-group">
+          <div>
+            <label for="approval">
+              서비스 이용을 위해 입력한 정보를 제공하는 것에 동의합니다.
+            </label>
+            <input
+              type="checkbox"
+              id="approval"
+              name="approval"
+              data-rules="required"
+            />
+          </div>
+          <div class="error"></div>
+        </div>
+        <button type="submit">가입</button>
+      </form>
+    </div>
     <script type="module" src="/scripts/main.js"></script>
   </body>
 </html>
