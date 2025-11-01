@@ -4,7 +4,11 @@ interface Props {
   fill?: string;
 }
 
-export default function BoldIcon({ height = 24, width = 24, fill = "#212121" }: Props) {
+export default function BoldIcon({
+  height = 24,
+  width = 24,
+  fill = "#212121",
+}: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

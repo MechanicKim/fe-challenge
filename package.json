@@ -9,7 +9,8 @@
     "week2": "pnpm -F @fe-challenge/week2 dev",
     "week3": "pnpm -F @fe-challenge/week3 dev",
     "week4": "pnpm -F @fe-challenge/week4 dev",
-    "week5": "pnpm -F @fe-challenge/week5 dev"
+    "week5": "pnpm -F @fe-challenge/week5 dev",
+    "week6": "pnpm -F @fe-challenge/week6 dev"
   },
   "dependencies": {
     "react": "^19.1.1",

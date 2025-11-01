@@ -1,73 +1,115 @@
+import {
+  useEffect,
+  useState,
+  type Dispatch,
+  type MouseEventHandler,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import BoldIcon from "../icons/BoldIcon";
 import ItalicIcon from "../icons/ItalicIcon";
 import LinkIcon from "../icons/LinkIcon";
 import UnorderedListIcon from "../icons/UnorderedListIcon";
-import styles from './Editor.module.css';
+import styles from "./Editor.module.css";
+import { COMMAND } from "./constants";
+import LinkOffIcon from "../icons/LinkOffIcon";
 
-export default function Tools() {
+interface ButtonProps {
+  isSelected: boolean | string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  children: ReactNode;
+}
+
+function Button({ isSelected, onClick, children }: ButtonProps) {
+  const style = {
+    backgroundColor: "rgba(255, 255, 255, 0)",
+  };
+  if (isSelected) style.backgroundColor = "#E0E0E0";
+  return (
+    <button style={style} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+interface Props {
+  currentStyles: Record<string, boolean | string>;
+  updateCurrentStyles: Dispatch<
+    SetStateAction<Record<string, boolean | string>>
+  >;
+}
+
+export default function Tools({ currentStyles, updateCurrentStyles }: Props) {
+  const [linkURL, setLinkURL] = useState("");
+  const currentLinkURL = currentStyles[COMMAND.LINK] as string;
+
+  useEffect(() => {
+    if (currentLinkURL) {
+      setLinkURL(currentLinkURL);
+    }
+  }, [currentLinkURL]);
+
   const handleClickTool = (command: string) => {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
-
-    function formatText(originText: string) {
-      if (command === 'bold') return `**${originText}**`;
-      if (command === 'italic') return `_${originText}_`;
-      else if (command === 'link') return `[${originText}]()`;
-      else if (command === 'unorderedList') return `- ${originText}`;
-      return null;
+    if (command === COMMAND.LINK) {
+      document.execCommand(command, false, linkURL);
+      updateCurrentStyles((prev) => ({
+        ...prev,
+        [command]: linkURL,
+      }));
+    } else if (command === COMMAND.UNLINK) {
+      document.execCommand(command, false, "false");
+      updateCurrentStyles((prev) => ({
+        ...prev,
+        [command]: false,
+      }));
+      setLinkURL("");
+    } else {
+      document.execCommand(command);
+      updateCurrentStyles((prev) => ({
+        ...prev,
+        [command]: !currentStyles[command],
+      }));
     }
-
-    const range = selection.getRangeAt(0);
-    const { startOffset, endOffset } = range;
-    if (startOffset === endOffset) return;
-
-    console.log(startOffset, endOffset);
-
-    const container = range.commonAncestorContainer;
-    if (container.childNodes.length === 0 && container.textContent) {
-      const originText = container.textContent.substring(startOffset, endOffset);
-      const formattedText = formatText(originText);
-      const start = container.textContent.substring(0, startOffset);
-      const end = container.textContent.substring(endOffset);
-      container.textContent = `${start}${formattedText}${end}`;
-      range.collapse(false);
-      return;
-    }
-    
-    const last = container.childNodes.length - 1;
-    [...container.childNodes].forEach((node, index) => {
-      if (!node.textContent) return;
-      if (index === 0) {
-        const originText = node.textContent.substring(startOffset);
-        const formattedText = formatText(originText);
-        const start = node.textContent.substring(0, startOffset);
-        node.textContent = `${start}${formattedText}`;
-      } else if (index === last) {
-        const originText = node.textContent.substring(0, endOffset);
-        const formattedText = formatText(originText);
-        const end = node.textContent.substring(endOffset);
-        node.textContent = `${formattedText}${end}`;
-      } else {
-        node.textContent = formatText(node.textContent);
-      }
-    });
-    range.collapse(false);
   };
 
   return (
     <div className={styles.tools}>
-      <button onClick={() => handleClickTool('bold')}>
+      <Button
+        isSelected={currentStyles[COMMAND.BOLD]}
+        onClick={() => handleClickTool(COMMAND.BOLD)}
+      >
         <BoldIcon />
-      </button>
-      <button onClick={() => handleClickTool('italic')}>
+      </Button>
+      <Button
+        isSelected={currentStyles[COMMAND.ITALIC]}
+        onClick={() => handleClickTool(COMMAND.ITALIC)}
+      >
         <ItalicIcon />
-      </button>
-      <button onClick={() => handleClickTool('link')}>
-        <LinkIcon />
-      </button>
-      <button onClick={() => handleClickTool('unorderedList')}>
+      </Button>
+      <Button
+        isSelected={currentStyles[COMMAND.UNORDERED_LIST]}
+        onClick={() => handleClickTool(COMMAND.UNORDERED_LIST)}
+      >
         <UnorderedListIcon />
-      </button>
+      </Button>
+      <Button
+        isSelected={currentStyles[COMMAND.LINK]}
+        onClick={() => handleClickTool(COMMAND.LINK)}
+      >
+        <LinkIcon />
+      </Button>
+      <input
+        type="text"
+        value={linkURL}
+        onChange={(e) => setLinkURL(e.target.value)}
+        placeholder="Link URL"
+      />
+      <Button
+        isSelected={currentStyles[COMMAND.UNLINK]}
+        onClick={() => handleClickTool(COMMAND.UNLINK)}
+      >
+        <LinkOffIcon />
+      </Button>
     </div>
   );
 }

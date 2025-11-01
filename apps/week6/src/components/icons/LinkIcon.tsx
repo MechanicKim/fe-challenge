@@ -7,7 +7,7 @@ interface Props {
 export default function LinkIcon({
   height = 24,
   width = 24,
-  fill = '#212121',
+  fill = "#212121",
 }: Props) {
   return (
     <svg
