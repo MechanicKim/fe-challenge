@@ -15,12 +15,12 @@ import { COMMAND } from "./constants";
 import LinkOffIcon from "../icons/LinkOffIcon";
 
 interface ButtonProps {
-  isSelected: boolean | string;
+  isSelected?: boolean | string;
   onClick: MouseEventHandler<HTMLButtonElement>;
   children: ReactNode;
 }
 
-function Button({ isSelected, onClick, children }: ButtonProps) {
+function Button({ isSelected = false, onClick, children }: ButtonProps) {
   const style = {
     backgroundColor: "rgba(255, 255, 255, 0)",
   };
@@ -104,10 +104,7 @@ export default function Tools({ currentStyles, updateCurrentStyles }: Props) {
         onChange={(e) => setLinkURL(e.target.value)}
         placeholder="Link URL"
       />
-      <Button
-        isSelected={currentStyles[COMMAND.UNLINK]}
-        onClick={() => handleClickTool(COMMAND.UNLINK)}
-      >
+      <Button onClick={() => handleClickTool(COMMAND.UNLINK)}>
         <LinkOffIcon />
       </Button>
     </div>

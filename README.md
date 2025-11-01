@@ -24,7 +24,7 @@
 - [**3주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week3/README.md): 다국어 지원
 - [**4주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week4/README.md): 필터링 테이블
 - [**5주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week5/README.md): 폼 검사 라이브러리
-- **6주차 가이드** (기획 예정): 마크다운 에디터
+- [**6주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week6/README.md): 마크다운 에디터
 - **7주차 가이드** (기획 예정): 실시간 화이트보드
 - **8주차 가이드** (기획 예정): 고성능 랜딩 페이지
 
