@@ -1,6 +1,6 @@
 # 프론트엔드 챌린지 로드맵
 
-이 프로젝트는 난이도와 관계없이 실무에서 가장 자주 사용되는 **핵심 프론트엔드 역량**을 기르기 위해 기획된 주간 챌린지 모음입니다. 각 주차별로 하나의 실용적인 과제를 깊이 있게 구현합니다.
+이 프로젝트는 난이도와 관계없이 실무에서 사용되는 **핵심 프론트엔드 역량**을 기르기 위해 기획된 주간 챌린지 모음입니다. 각 주차별로 하나의 실용적인 과제를 깊이 있게 구현합니다.
 
 ## 챌린지 개요
 
@@ -25,7 +25,7 @@
 - [**4주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week4/README.md): 필터링 테이블
 - [**5주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week5/README.md): 폼 검사 라이브러리
 - [**6주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week6/README.md): 마크다운 에디터
-- **7주차 가이드** (기획 예정): 실시간 화이트보드
+- [**7주차 가이드**](https://github.com/MechanicKim/fe-challenge/blob/main/apps/week7/README.md): 실시간 화이트보드
 - **8주차 가이드** (기획 예정): 고성능 랜딩 페이지
 
 ## 주요 기술 스택
