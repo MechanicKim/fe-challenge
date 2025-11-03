@@ -59,7 +59,7 @@
   }
 
   async function uploadFile(file) {
-    const url = 'http://localhost:3000/upload';
+    const url = 'http://localhost:3000/api/week2/upload';
 
     const formData = new FormData();
     formData.append('file', file);
