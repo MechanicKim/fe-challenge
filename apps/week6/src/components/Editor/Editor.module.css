@@ -29,33 +29,13 @@
   }
 }
 
-.editor {
+.editor, .preview {
   padding: 16px;
   height: 320px;
+  line-height: 1.5;
   overflow-y: auto;
   box-sizing: border-box;
   outline-style: none;
-  border: 1px solid #9e9e9e;
-  background-color: #fafafa;
-
-  b {
-    font-weight: bold;
-  }
-
-  i {
-    font-style: italic;
-  }
-
-  ul {
-    list-style: disc;
-  }
-}
-
-.preview {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-  box-sizing: border-box;
   border: 1px solid #9e9e9e;
   background-color: #fafafa;
 
@@ -70,4 +50,8 @@
   ul {
     list-style: disc;
   }
+}
+
+.preview {
+  flex: 1;
 }

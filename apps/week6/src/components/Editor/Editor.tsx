@@ -37,13 +37,22 @@ export default function Editor() {
     const children = [...dom.childNodes];
     for (const child of children) {
       if (child.nodeName === "#text" && child.textContent) {
-        lines.push(child.textContent);
+        const replaced = child.textContent
+          .replace(/&/g, '\\&')
+          .replace(/</g, '\\<')
+          .replace(/>/g, '\\>')
+          .replace(/\*/g, '\\*')
+          .replace(/\[/g, '\\[')
+          .replace(/\]/g, '\\]')
+          .replace(/-/g, '\\-')
+
+        lines.push(replaced);
       } else if (child.nodeName === "DIV") {
         lines.push("<br/>", toMakrdown(child));
       } else if (child.nodeName === "B") {
         lines.push("**", toMakrdown(child), "**");
       } else if (child.nodeName === "I") {
-        lines.push("_", toMakrdown(child), "_");
+        lines.push("*", toMakrdown(child), "*");
       } else if (child.nodeName === "A") {
         const href = (child as HTMLAnchorElement).href;
         lines.push("[", toMakrdown(child), `](${href})`);
