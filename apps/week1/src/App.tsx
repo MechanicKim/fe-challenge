@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div className={styles.container}>
-      <ChartFilter onChange={setFilter} />
+      <ChartFilter period={filter.period} onChange={setFilter} />
       <TrafficChart chartData={chartData} />
     </div>
   );

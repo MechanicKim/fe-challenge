@@ -1,30 +1,38 @@
-import type { Dispatch, SetStateAction } from 'react';
-import type { Filter } from '../App';
+import type { Dispatch, SetStateAction } from "react";
+import type { Filter } from "../App";
 
-import styles from './ChartFilter.module.css';
+import styles from "./ChartFilter.module.css";
 
 interface Props {
+  period: number;
   onChange: Dispatch<SetStateAction<Filter>>;
 }
 
-export default function ChartFilter({ onChange }: Props) {
+const periods = [
+  { label: "오늘", value: 1 },
+  { label: "7일", value: 7 },
+  { label: "30일", value: 30 },
+  { label: "전체", value: 0 },
+];
+
+export default function ChartFilter({ period, onChange }: Props) {
   return (
     <div className={styles.container}>
-      <select
-        onChange={(e) => {
-          onChange((prev) => {
-            return {
-              ...prev,
-              period: +e.target.value,
-            };
-          });
-        }}
-      >
-        <option value={1}>오늘</option>
-        <option value={7}>7일</option>
-        <option value={30}>30일</option>
-        <option value={0}>전체</option>
-      </select>
+      {periods.map(({ label, value }) => (
+        <button
+          className={period === value ? styles.selected : styles.common}
+          onClick={() => {
+            onChange((prev) => {
+              return {
+                ...prev,
+                period: value,
+              };
+            });
+          }}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }
