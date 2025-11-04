@@ -11,11 +11,11 @@
     cursor: pointer;
 
     &.common {
-      background-color: #EEEEEE;
+      background-color: #eeeeee;
     }
 
     &.selected {
-      background-color: #FFF59D;
+      background-color: #fff59d;
     }
   }
 }

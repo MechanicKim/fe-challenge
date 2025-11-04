@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import { useEffect } from "react";
+import Chart from "chart.js/auto";
 
-const CANVAS_ID = 'chart';
+const CANVAS_ID = "chart";
 
 export interface ChartData {
   labels: string[];
@@ -15,7 +15,7 @@ interface CreateChartProps extends ChartData {
 
 function createChart({ canvas, label, labels, data }: CreateChartProps) {
   new Chart(canvas, {
-    type: 'bar',
+    type: "bar",
     data: {
       labels,
       datasets: [

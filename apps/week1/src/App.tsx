@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
-import TrafficChart, { type ChartData } from './components/TrafficChart';
-import ChartFilter from './components/ChartFilter';
-import styles from './App.module.css';
+import { useEffect, useState } from "react";
+import TrafficChart, { type ChartData } from "./components/TrafficChart";
+import ChartFilter from "./components/ChartFilter";
+import styles from "./App.module.css";
 
 interface Traffic {
   date: string;
-  page_views: number;
-  unique_visitors: number;
+  count: number;
 }
 
 interface TrafficResponse {
@@ -36,8 +35,8 @@ function App() {
         if (result.data.length > 0) {
           setChartData({
             labels: result.data.map(({ date }) => date),
-            data: result.data.map(({ page_views }) => page_views),
-            label: 'Daily Traffic',
+            data: result.data.map(({ count }) => count),
+            label: "Daily Traffic",
           });
         }
       })
