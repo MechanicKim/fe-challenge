@@ -60,12 +60,6 @@ const FileUploader = ({ uploadURL }) => {
   const statusZone = StatusZone();
   fileUploader.append(dropZone, statusZone);
 
-  function displayStatus(files, timestamp) {
-    for (const file of files) {
-      UploadStatusItem(file, timestamp, (fileItem) => statusZone.append(fileItem));
-    }
-  }
-
   function updateStatus(dataFile, status) {
     const fileItemStatus = document.querySelector(
       `.file-item[data-file="${dataFile}"] .progress-bar`
@@ -74,14 +68,21 @@ const FileUploader = ({ uploadURL }) => {
     if (status === '성공') {
       fileItemStatus.classList.add("success");
     } else {
+      console.error(status);
       fileItemStatus.classList.add("fail");
+      fileItemStatus.textContent = status;
     }
   }
 
   async function uploadFile(file, timestamp) {
-    const dataFile = `${file.name}${timestamp}`;
-
     try {
+      const dataFile = `${file.name}${timestamp}`;
+      const fileSize = Math.round(file.size / 1024);
+      if (fileSize > 5120) {
+        updateStatus(dataFile, "실패: 파일 크기 5MB 초과");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       const response = await fetch(uploadURL, {
@@ -90,21 +91,19 @@ const FileUploader = ({ uploadURL }) => {
       });
 
       if (response.ok) {
-        console.log("파일 업로드 성공:", file.name);
         updateStatus(dataFile, "성공");
       } else {
-        console.error("파일 업로드 실패:", file.name);
-        updateStatus(dataFile, "실패");
+        updateStatus(dataFile, "실패: 서버 오류");
       }
     } catch (error) {
-      console.error("업로드 중 에러 발생:", file.name, error);
-      updateStatus(dataFile, "에러");
+      updateStatus(dataFile, `에러: ${error}`);
     }
   }
 
   function uploadFiles(files, timestamp) {
     for (const file of files) {
-      uploadFile(file, timestamp);
+      UploadStatusItem(file, timestamp, (fileItem) => statusZone.append(fileItem));
+      setTimeout(() => uploadFile(file, timestamp), 100);
     }
   }
 
@@ -152,14 +151,12 @@ const FileUploader = ({ uploadURL }) => {
       .map((item) => item.getAsFile())
       .filter((file) => file.type.startsWith("image/"));
     const timestamp = new Date().getTime();
-    displayStatus(files, timestamp);
     uploadFiles(files, timestamp);
   });
 
   fileInput.addEventListener("change", (e) => {
     const { files } = e.target;
     const timestamp = new Date().getTime();
-    displayStatus(e.target.files, timestamp);
     uploadFiles(files, timestamp);
   });
 };

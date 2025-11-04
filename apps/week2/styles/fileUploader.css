@@ -33,11 +33,14 @@
 
 #status-zone {
   width: 300px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
 
   > .file-item {
+    width: 100%;
     display: flex;
     gap: 8px;
 
@@ -49,29 +52,36 @@
       font-size: 0.9rem;
 
       > .upload-status {
-        height: 16px;
         border-radius: 2px;
         background-color: #eeeeee;
 
         > .progress-bar {
           width: 0;
-          height: 100%;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          font-size: 0.75rem;
           border-radius: 2px;
-          animation: fillWidth 0.15s ease-in-out forwards;
+          box-sizing: border-box;
         }
 
         > .progress-bar.success {
+          height: 16px;
           background-color: #81c784;
+          animation: fillWidth 0.15s ease-in-out forwards;
         }
 
         > .progress-bar.fail {
+          color: #FFFFFF;
           background-color: #e57373;
+          animation: fillWidth 0.05s ease-in-out forwards;
         }
       }
     }
 
     > img {
       width: 100px;
+      object-fit: contain;
     }
   }
 }
