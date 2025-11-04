@@ -1,42 +1,26 @@
 const FileUploader = ({ uploadURL }) => {
-  function DropZone() {
-    const infoText = document.createElement("p");
-    infoText.textContent = "파일을 끌어다 놓거나 클릭하여 선택하세요.";
-    const fileInput = document.createElement("input");
-    fileInput.id = "file-input";
-    fileInput.type = "file";
-    fileInput.accept = "image/*";
-    fileInput.setAttribute("multiple", "true");
+  const dropZone = document.getElementById("drop-zone");
+  const statusZone = document.getElementById("status-zone");
 
-    const dropZone = document.createElement("div");
-    dropZone.id = "drop-zone";
-    dropZone.append(infoText, fileInput);
-
-    return {
-      dropZone,
-      fileInput,
-    };
-  }
-
-  function StatusZone() {
-    const statusZone = document.createElement("p");
-    statusZone.id = "status-zone";
-    return statusZone;
-  }
+  const infoText = document.createElement("span");
+  infoText.textContent = "파일을 끌어다 놓거나 클릭하여 선택하세요.";
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.setAttribute("multiple", "true");
+  dropZone.append(infoText, fileInput);
 
   function UploadStatusItem(file, timestamp, callback) {
     const fileName = document.createElement("div");
     fileName.textContent = file.name;
     const fileSize = document.createElement("div");
     fileSize.textContent = `${Math.round(file.size / 1024)}KB`;
-    const uploadStatus = document.createElement("div");
-    uploadStatus.className = "upload-status";
     const progressBar = document.createElement("div");
     progressBar.className = "progress-bar";
+    const uploadStatus = document.createElement("div");
     uploadStatus.append(progressBar);
 
     const infoGroup = document.createElement("div");
-    infoGroup.className = "info-group";
     infoGroup.append(fileName, fileSize, uploadStatus);
 
     const preview = document.createElement("img");
@@ -45,32 +29,28 @@ const FileUploader = ({ uploadURL }) => {
       preview.src = e.target.result;
       preview.alt = file.name;
 
-      const fileItem = document.createElement("div");
-      fileItem.className = "file-item";
-      fileItem.dataset.file = `${file.name}${timestamp}`;
-      fileItem.append(infoGroup, preview);
+      const statusItem = document.createElement("div");
+      statusItem.className = "upload-status-item";
+      statusItem.dataset.file = `${file.name}${timestamp}`;
+      statusItem.append(infoGroup, preview);
 
-      callback(fileItem);
+      callback(statusItem);
     };
     reader.readAsDataURL(file);
   }
 
-  const fileUploader = document.getElementById("file-uploader");
-  const { dropZone, fileInput } = DropZone();
-  const statusZone = StatusZone();
-  fileUploader.append(dropZone, statusZone);
-
   function updateStatus(dataFile, status) {
-    const fileItemStatus = document.querySelector(
-      `.file-item[data-file="${dataFile}"] .progress-bar`
-    );
-    if (!fileItemStatus) return;
+    const uploadStatus = document.querySelector(`.upload-status-item[data-file="${dataFile}"]`);
+    const progressBar = uploadStatus.querySelector(".progress-bar");
+
+    if (!progressBar) return;
     if (status === '성공') {
-      fileItemStatus.classList.add("success");
+      uploadStatus.querySelector("img").style.display = "block";
+      progressBar.classList.add("success");
     } else {
       console.error(status);
-      fileItemStatus.classList.add("fail");
-      fileItemStatus.textContent = status;
+      progressBar.classList.add("fail");
+      progressBar.textContent = status;
     }
   }
 
@@ -102,7 +82,9 @@ const FileUploader = ({ uploadURL }) => {
 
   function uploadFiles(files, timestamp) {
     for (const file of files) {
-      UploadStatusItem(file, timestamp, (fileItem) => statusZone.append(fileItem));
+      UploadStatusItem(file, timestamp, (statusItem) => {
+        statusZone.append(statusItem);
+      });
       setTimeout(() => uploadFile(file, timestamp), 100);
     }
   }
@@ -161,4 +143,6 @@ const FileUploader = ({ uploadURL }) => {
   });
 };
 
-FileUploader({ uploadURL: "http://localhost:3000/api/week2/upload" });
+FileUploader({
+  uploadURL: "http://localhost:3000/api/week2/upload",
+});
