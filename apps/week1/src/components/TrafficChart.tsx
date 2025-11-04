@@ -32,6 +32,15 @@ function createChart({ canvas, label, labels, data }: CreateChartProps) {
           beginAtZero: true,
         },
       },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (context) => {
+              return `${context.formattedValue}명`;
+            },
+          },
+        },
+      },
     },
   });
 }

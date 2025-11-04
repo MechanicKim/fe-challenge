@@ -20,7 +20,8 @@ export default function ChartFilter({ period, onChange }: Props) {
     <div className={styles.container}>
       {periods.map(({ label, value }) => (
         <button
-          className={period === value ? styles.selected : styles.common}
+          key={value}
+          className={period === value ? styles.selected : ''}
           onClick={() => {
             onChange((prev) => {
               return {
