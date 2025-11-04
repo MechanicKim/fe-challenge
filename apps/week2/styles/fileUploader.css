@@ -1,0 +1,86 @@
+#file-uploader {
+  width: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#drop-zone {
+  position: relative;
+  width: 300px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background-color: #eeeeee;
+
+  &.available {
+    background-color: #C8E6C9;
+  }
+
+  > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+
+#status-zone {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > .file-item {
+    display: flex;
+    gap: 8px;
+
+    > .info-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.9rem;
+
+      > .upload-status {
+        height: 16px;
+        border-radius: 2px;
+        background-color: #eeeeee;
+
+        > .progress-bar {
+          width: 0;
+          height: 100%;
+          border-radius: 2px;
+          animation: fillWidth 0.15s ease-in-out forwards;
+        }
+
+        > .progress-bar.success {
+          background-color: #81c784;
+        }
+
+        > .progress-bar.fail {
+          background-color: #e57373;
+        }
+      }
+    }
+
+    > img {
+      width: 100px;
+    }
+  }
+}
+
+@keyframes fillWidth {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
