@@ -15,7 +15,7 @@ const FileUploader = ({ uploadURL }) => {
     fileName.textContent = file.name;
     const fileSize = document.createElement("div");
     fileSize.textContent = `${Math.round(file.size / 1024)}KB`;
-    const progressBar = document.createElement("div");
+    const progressBar = document.createElement("span");
     progressBar.className = "progress-bar";
     const uploadStatus = document.createElement("div");
     uploadStatus.append(progressBar);
@@ -93,12 +93,20 @@ const FileUploader = ({ uploadURL }) => {
     return items.filter((item) => item.kind === "file");
   }
 
+  function onAvailable() {
+    dropZone.style.backgroundColor = "#c8e6c9";
+  }
+
+  function onUnavailable() {
+    dropZone.style.backgroundColor = "#eeeeee";
+  }
+
   window.addEventListener("dragover", (e) => {
     const fileItems = filterFile([...e.dataTransfer.items]);
     if (fileItems.length > 0) {
       e.preventDefault();
       if (!dropZone.contains(e.target)) {
-        dropZone.classList.remove("available");
+        onUnavailable()
         e.dataTransfer.dropEffect = "none";
       }
     }
@@ -115,10 +123,10 @@ const FileUploader = ({ uploadURL }) => {
     if (fileItems.length > 0) {
       e.preventDefault();
       if (fileItems.some((item) => item.type.startsWith("image/"))) {
-        dropZone.classList.add("available");
+        onAvailable()
         e.dataTransfer.dropEffect = "copy";
       } else {
-        dropZone.classList.remove("available");
+        onUnavailable();
         e.dataTransfer.dropEffect = "none";
       }
     }
@@ -127,7 +135,7 @@ const FileUploader = ({ uploadURL }) => {
   dropZone.addEventListener("drop", (e) => {
     e.preventDefault();
 
-    dropZone.classList.remove("available");
+    onUnavailable();
 
     const files = filterFile([...e.dataTransfer.items])
       .map((item) => item.getAsFile())
