@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import Chart from "chart.js/auto";
+import styles from "./Chart.module.css";
 
 const CANVAS_ID = "chart";
 
 const themeColors = {
   light: {
-    canvasBg: '#FFFFFF',
     text: '#333333',
     grid: '#E0E0E0',
     tooltip: {
@@ -15,7 +15,6 @@ const themeColors = {
     },
   },
   dark: {
-    canvasBg: '#1E1E1E',
     text: '#FFFFFF',
     grid: '#404040',
     tooltip: {
@@ -97,11 +96,6 @@ export default function TrafficChart({ chartData, theme }: Props) {
   useEffect(() => {
     const colors = themeColors[theme];
 
-    const canvas = document.getElementById(CANVAS_ID) as HTMLCanvasElement;
-    if (canvas) {
-      canvas.style.backgroundColor = colors.canvasBg;
-    }
-
     Chart.defaults.color = colors.text;
     Chart.defaults.borderColor = colors.grid;
     
@@ -130,5 +124,5 @@ export default function TrafficChart({ chartData, theme }: Props) {
     if (chart) chart.update();
   }, [theme]);
 
-  return <canvas id={CANVAS_ID}></canvas>;
+  return <canvas id={CANVAS_ID} className={`${styles.chart} ${styles[theme]}`}></canvas>;
 }

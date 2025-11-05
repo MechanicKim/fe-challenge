@@ -39,7 +39,7 @@ export default function ChartFilter({ filter, onChange }: Props) {
         </button>
       ))}
       <button
-        className={`${styles.toggle} ${theme === "light" ? styles.common : styles.dark}`}
+        className={`${styles.toggle} ${styles[theme]}`}
         onClick={() => {
           onChange((prev) => {
             return {

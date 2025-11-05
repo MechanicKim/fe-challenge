@@ -1,0 +1,8 @@
+canvas.chart {
+  &.dark {
+    background-color: var(--darkBg);
+  }
+  &.light {
+    background-color: var(--lightBg);
+  }
+}
