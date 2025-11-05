@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 4px;
 
@@ -10,12 +11,22 @@
     border-radius: 4px;
     cursor: pointer;
 
+    &.toggle {
+      padding: 4px;
+      display: flex;
+      gap: 4px;
+    }
+
     &.common {
       background-color: #eeeeee;
     }
 
     &.selected {
       background-color: #fff59d;
+    }
+
+    &.dark {
+      background-color: #212121;
     }
   }
 }

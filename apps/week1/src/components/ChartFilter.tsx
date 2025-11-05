@@ -2,9 +2,11 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Filter } from "../App";
 
 import styles from "./ChartFilter.module.css";
+import LightModeIcon from "./LightModeIcon";
+import DarkModeIcon from "./DarkModeIcon";
 
 interface Props {
-  period: number;
+  filter: Filter;
   onChange: Dispatch<SetStateAction<Filter>>;
 }
 
@@ -15,13 +17,15 @@ const periods = [
   { label: "전체", value: 0 },
 ];
 
-export default function ChartFilter({ period, onChange }: Props) {
+export default function ChartFilter({ filter, onChange }: Props) {
+  const { period, theme } = filter;
+
   return (
     <div className={styles.container}>
       {periods.map(({ label, value }) => (
         <button
           key={value}
-          className={period === value ? styles.selected : ''}
+          className={period === value ? styles.selected : styles.common}
           onClick={() => {
             onChange((prev) => {
               return {
@@ -34,6 +38,23 @@ export default function ChartFilter({ period, onChange }: Props) {
           {label}
         </button>
       ))}
+      <button
+        className={`${styles.toggle} ${theme === "light" ? styles.common : styles.dark}`}
+        onClick={() => {
+          onChange((prev) => {
+            return {
+              ...prev,
+              theme: prev.theme === "light" ? "dark" : "light",
+            };
+          });
+        }}
+      >
+        {theme === "light" ? (
+          <LightModeIcon width={16} height={16} />
+        ) : (
+          <DarkModeIcon width={16} height={16} fill="#EEEEEE" />
+        )}
+      </button>
     </div>
   );
 }
