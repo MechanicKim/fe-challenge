@@ -15,7 +15,7 @@
 
   > thead > tr {
     font-weight: 500;
-    border-bottom: 1px solid #BDBDBD;
+    border-bottom: 1px solid #bdbdbd;
 
     > th:nth-child(1) {
       width: 40px;
@@ -28,10 +28,10 @@
   }
 
   > tbody > tr {
-    border-bottom: 1px solid #BDBDBD;
+    border-bottom: 1px solid #bdbdbd;
 
     &.inactive {
-      background-color: #FFEBEE;
+      background-color: #ffebee;
     }
 
     > td {
@@ -84,7 +84,7 @@
     &.selected {
       font-weight: 600;
       line-height: 1;
-      background-color: #E0E0E0;
+      background-color: #e0e0e0;
       border-radius: 16px;
     }
   }

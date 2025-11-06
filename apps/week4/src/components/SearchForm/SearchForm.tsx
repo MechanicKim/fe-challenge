@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useRef } from 'react';
-import styles from './SearchForm.module.css';
+import { useState } from "react";
+import { useRef } from "react";
+import styles from "./SearchForm.module.css";
 
 interface Props {
   onChangeFormData: (formData: { name: string }) => void;
 }
 
 export default function SearchForm({ onChangeFormData }: Props) {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const timerRef = useRef<number | null>(null);
 
   return (

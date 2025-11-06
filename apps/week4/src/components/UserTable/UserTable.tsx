@@ -1,10 +1,10 @@
-import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
-import type { IPager, ReqParam, Sort, User } from '../../types';
-import Pager from './Pager';
-import TableBody from './TableBody';
-import TableHeader from './TableHeader';
-import styles from './UserTable.module.css';
-import fetchUserList from '../../api';
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import type { IPager, ReqParam, Sort, User } from "../../types";
+import Pager from "./Pager";
+import TableBody from "./TableBody";
+import TableHeader from "./TableHeader";
+import styles from "./UserTable.module.css";
+import fetchUserList from "../../api";
 
 interface Props {
   total: number;

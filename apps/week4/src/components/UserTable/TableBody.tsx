@@ -1,5 +1,5 @@
-import type { User } from '../../types';
-import styles from './UserTable.module.css';
+import type { User } from "../../types";
+import styles from "./UserTable.module.css";
 
 interface Props {
   users: User[];
@@ -9,7 +9,7 @@ export default function TableBody({ users }: Props) {
   return (
     <tbody>
       {users.map((user) => {
-        const statusClass = user.status === '활성' ? 'active' : styles.inactive;
+        const statusClass = user.status === "활성" ? "active" : styles.inactive;
         return (
           <tr key={user.id} className={statusClass}>
             <td>{user.id}</td>

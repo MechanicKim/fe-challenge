@@ -12,10 +12,10 @@
   padding: 12px;
   font-size: 0.9rem;
   border-radius: 8px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 
   &.inactive {
-    background-color: #FFEBEE;
+    background-color: #ffebee;
   }
 
   .name {

@@ -1,8 +1,14 @@
-import type { IPager, ReqParam, Sort, User } from '../../types';
-import styles from './UserCard.module.css';
-import useInfiniteScroll from '../../useInfiniteScroll';
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from 'react';
-import fetchUserList from '../../api';
+import type { IPager, ReqParam, Sort, User } from "../../types";
+import styles from "./UserCard.module.css";
+import useInfiniteScroll from "../../useInfiniteScroll";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import fetchUserList from "../../api";
 
 interface Props {
   total: number;
@@ -31,7 +37,7 @@ export default function UserCard({
             if (containerRef.current) containerRef.current.scrollTo(0, 0);
             setUsers(result.data);
           } else {
-            setUsers((prev) => ([...prev, ...result.data]))
+            setUsers((prev) => [...prev, ...result.data]);
           }
         } else {
           console.error(result.error);
@@ -54,21 +60,21 @@ export default function UserCard({
       pager: {
         ...pager,
         page: pager.page + 1,
-      }
+      },
     });
   }, hasNextPage);
 
   return (
     <div ref={containerRef} className={styles.container}>
       {users.map((user) => {
-        const classNames = [styles.card, user.status === '비활성' && styles.inactive]
-              .filter(Boolean)
-              .join(' ');
+        const classNames = [
+          styles.card,
+          user.status === "비활성" && styles.inactive,
+        ]
+          .filter(Boolean)
+          .join(" ");
         return (
-          <div
-            key={user.id}
-            className={classNames}
-          >
+          <div key={user.id} className={classNames}>
             <div className={styles.name}>{user.name}</div>
             <div>{user.email}</div>
             <div className={styles.joined}>{user.joined_date} 가입</div>

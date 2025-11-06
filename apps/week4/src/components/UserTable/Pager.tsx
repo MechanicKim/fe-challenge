@@ -1,5 +1,5 @@
-import type { IPager } from '../../types';
-import styles from './UserTable.module.css';
+import type { IPager } from "../../types";
+import styles from "./UserTable.module.css";
 
 interface Props {
   total: number;
