@@ -15,13 +15,7 @@
         <div class="input-group">
           <label for="email">이메일</label>
           <div>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              autocomplete="email"
-              data-rules="required"
-            />
+            <input type="text" id="email" name="email" autocomplete="email" />
             <div class="error"></div>
           </div>
         </div>
@@ -33,7 +27,6 @@
               id="password"
               name="password"
               autocomplete="off"
-              data-rules="required|min:12"
             />
             <div class="error"></div>
           </div>
@@ -46,7 +39,6 @@
               id="password2"
               name="password2"
               autocomplete="off"
-              data-rules="required|min:12|match:password"
             />
             <div class="error"></div>
           </div>
@@ -59,28 +51,22 @@
               id="userName"
               name="userName"
               autocomplete="name"
-              data-rules="required"
             />
             <div class="error"></div>
           </div>
         </div>
         <div class="checkbox-group">
           <div>
-            <label for="approval">
+            <label for="usageConsent">
               서비스 이용을 위해 입력한 정보를 제공하는 것에 동의합니다.
             </label>
-            <input
-              type="checkbox"
-              id="approval"
-              name="approval"
-              data-rules="required"
-            />
+            <input type="checkbox" id="approval" name="usageConsent" />
           </div>
           <div class="error"></div>
         </div>
         <button type="submit">가입</button>
       </form>
     </div>
-    <script type="module" src="/scripts/main.js"></script>
+    <script type="module" src="./scripts/main.js"></script>
   </body>
 </html>
