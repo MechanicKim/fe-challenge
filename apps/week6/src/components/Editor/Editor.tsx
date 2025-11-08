@@ -4,9 +4,11 @@ import styles from "./Editor.module.css";
 import Tools from "./Tools";
 import { COMMAND } from "./constants";
 
+type CurrentStyle = Record<string, boolean | string>;
+
 export default function Editor() {
   const [currentStyles, setCurrentStyles] = useState<
-    Record<string, boolean | string>
+    CurrentStyle
   >({});
   const ref = useRef(null);
   const previewRef = useRef(null);
@@ -14,7 +16,7 @@ export default function Editor() {
   function updateCurrnetStyles(target: HTMLElement | null) {
     let current = target;
 
-    const styles: Record<string, boolean | string> = {};
+    const styles: CurrentStyle = {};
     while (current && current !== ref.current) {
       const tagName = current.tagName;
       if (tagName === "B") {
@@ -38,13 +40,13 @@ export default function Editor() {
     for (const child of children) {
       if (child.nodeName === "#text" && child.textContent) {
         const replaced = child.textContent
-          .replace(/&/g, '\\&')
-          .replace(/</g, '\\<')
-          .replace(/>/g, '\\>')
-          .replace(/\*/g, '\\*')
-          .replace(/\[/g, '\\[')
-          .replace(/\]/g, '\\]')
-          .replace(/-/g, '\\-')
+          .replace(/&/g, "\\&")
+          .replace(/</g, "\\<")
+          .replace(/>/g, "\\>")
+          .replace(/\*/g, "\\*")
+          .replace(/\[/g, "\\[")
+          .replace(/\]/g, "\\]")
+          .replace(/-/g, "\\-");
 
         lines.push(replaced);
       } else if (child.nodeName === "DIV") {
@@ -94,7 +96,6 @@ export default function Editor() {
           if (ref.current && previewRef.current) {
             const preview = previewRef.current as HTMLElement;
             preview.innerHTML = marked.parse(toMakrdown(ref.current)) as string;
-            // preview.innerHTML = toMakrdown(ref.current);
           }
         }}
       />
