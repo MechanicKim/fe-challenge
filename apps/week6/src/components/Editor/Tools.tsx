@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useState,
   type Dispatch,
   type MouseEventHandler,
@@ -11,8 +10,10 @@ import ItalicIcon from "../icons/ItalicIcon";
 import LinkIcon from "../icons/LinkIcon";
 import UnorderedListIcon from "../icons/UnorderedListIcon";
 import styles from "./Editor.module.css";
-import { COMMAND } from "./constants";
+import { COMMAND, SAVE_KEY } from "./constants";
 import LinkOffIcon from "../icons/LinkOffIcon";
+import ImageIcon from "../icons/ImageIcon";
+import SaveIcon from "../icons/SaveIcon";
 
 interface ButtonProps {
   isSelected?: boolean | string;
@@ -37,17 +38,16 @@ interface Props {
   updateCurrentStyles: Dispatch<
     SetStateAction<Record<string, boolean | string>>
   >;
+  editor: HTMLDivElement | null;
 }
 
-export default function Tools({ currentStyles, updateCurrentStyles }: Props) {
+export default function Tools({
+  currentStyles,
+  updateCurrentStyles,
+  editor,
+}: Props) {
   const [linkURL, setLinkURL] = useState("");
-  const currentLinkURL = currentStyles[COMMAND.LINK] as string;
-
-  useEffect(() => {
-    if (currentLinkURL) {
-      setLinkURL(currentLinkURL);
-    }
-  }, [currentLinkURL]);
+  const [imageURL, setImageURL] = useState("");
 
   const handleClickTool = (command: string) => {
     if (command === COMMAND.LINK) {
@@ -63,6 +63,17 @@ export default function Tools({ currentStyles, updateCurrentStyles }: Props) {
         [command]: false,
       }));
       setLinkURL("");
+    } else if (command === COMMAND.IMAGE) {
+      document.execCommand(command, false, imageURL);
+      updateCurrentStyles((prev) => ({
+        ...prev,
+        [command]: imageURL,
+      }));
+      setImageURL("");
+    } else if (command === COMMAND.SAVE) {
+      if (editor && editor.innerHTML) {
+        window.localStorage.setItem(SAVE_KEY, editor.innerHTML);
+      }
     } else {
       document.execCommand(command);
       updateCurrentStyles((prev) => ({
@@ -92,20 +103,32 @@ export default function Tools({ currentStyles, updateCurrentStyles }: Props) {
       >
         <UnorderedListIcon />
       </Button>
-      <Button
-        isSelected={currentStyles[COMMAND.LINK]}
-        onClick={() => handleClickTool(COMMAND.LINK)}
-      >
-        <LinkIcon />
-      </Button>
       <input
         type="text"
         value={linkURL}
         onChange={(e) => setLinkURL(e.target.value)}
         placeholder="Link URL"
       />
+      <Button
+        isSelected={currentStyles[COMMAND.LINK]}
+        onClick={() => handleClickTool(COMMAND.LINK)}
+      >
+        <LinkIcon />
+      </Button>
       <Button onClick={() => handleClickTool(COMMAND.UNLINK)}>
         <LinkOffIcon />
+      </Button>
+      <input
+        type="text"
+        value={imageURL}
+        onChange={(e) => setImageURL(e.target.value)}
+        placeholder="Image URL"
+      />
+      <Button onClick={() => handleClickTool(COMMAND.IMAGE)}>
+        <ImageIcon />
+      </Button>
+      <Button onClick={() => handleClickTool(COMMAND.SAVE)}>
+        <SaveIcon />
       </Button>
     </div>
   );

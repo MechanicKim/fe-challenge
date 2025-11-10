@@ -1,6 +1,6 @@
 .container {
   margin: 0 auto;
-  padding: 16px 0;
+  padding: 16px;
   min-width: 320px;
   max-width: 1024px;
   height: 100vh;
@@ -12,6 +12,7 @@
 
 .tools {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 
   > button {
@@ -29,7 +30,8 @@
   }
 }
 
-.editor, .preview {
+.editor,
+.preview {
   padding: 16px;
   height: 320px;
   line-height: 1.5;
@@ -39,11 +41,13 @@
   border: 1px solid #9e9e9e;
   background-color: #fafafa;
 
-  b, strong {
+  b,
+  strong {
     font-weight: bold;
   }
 
-  i, em {
+  i,
+  em {
     font-style: italic;
   }
 
