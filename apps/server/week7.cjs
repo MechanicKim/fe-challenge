@@ -1,8 +1,10 @@
 // 실시간 드로잉을 위한 데이터 저장소
-let lines = [];
+const lines = [];
+const userSet = new Set();
 
 function listener(socket) {
   console.log("새로운 클라이언트가 연결되었습니다.");
+  if (socket.id) userSet.add(socket.id);
 
   // 새로운 클라이언트에게 기존 라인 전체를 전송
   socket.emit("initial-lines", lines);
@@ -14,6 +16,7 @@ function listener(socket) {
   });
 
   socket.on("disconnect", () => {
+    if (socket.id) userSet.delete(socket.id);
     console.log("클라이언트 연결이 끊어졌습니다.");
   });
 }

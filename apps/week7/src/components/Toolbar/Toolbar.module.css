@@ -1,0 +1,31 @@
+.container {
+  padding: 12px;
+  position: absolute;
+  top: 10;
+  left: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  > label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  > label > input[type="text"] {
+    width: 120px;
+    padding: 4px;
+    outline-style: none;
+    box-sizing: border-box;
+  }
+
+  > label > button {
+    padding: 4px;
+    outline-style: none;
+    cursor: pointer;
+  }
+}

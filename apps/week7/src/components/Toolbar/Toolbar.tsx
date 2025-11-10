@@ -1,10 +1,15 @@
 import React from "react";
+import styles from "./Toolbar.module.css";
+import { socket } from "../../socket";
 
 interface ToolbarProps {
   color: string;
   setColor: (color: string) => void;
   lineWidth: number;
   setLineWidth: (width: number) => void;
+  userID: string;
+  setUserID: (userID: string) => void;
+  connected: boolean;
 }
 
 const Toolbar: React.FC<ToolbarProps> = ({
@@ -12,21 +17,12 @@ const Toolbar: React.FC<ToolbarProps> = ({
   setColor,
   lineWidth,
   setLineWidth,
+  userID,
+  setUserID,
+  connected,
 }) => {
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: 10,
-        left: 10,
-        display: "flex",
-        gap: "10px",
-        padding: "10px",
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
-        borderRadius: "8px",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-      }}
-    >
+    <div className={styles.container}>
       <label>
         Color:{" "}
         <input
@@ -44,6 +40,23 @@ const Toolbar: React.FC<ToolbarProps> = ({
           value={lineWidth}
           onChange={(e) => setLineWidth(Number(e.target.value))}
         />
+      </label>
+      <label>
+        ID:{" "}
+        <input
+          type="text"
+          value={userID}
+          onChange={(e) => setUserID(e.target.value)}
+        />
+        {connected ? (
+          <button type="button" onClick={() => socket.disconnect()}>
+            끊기
+          </button>
+        ) : (
+          <button type="button" onClick={() => socket.connect()}>
+            연결
+          </button>
+        )}
       </label>
     </div>
   );

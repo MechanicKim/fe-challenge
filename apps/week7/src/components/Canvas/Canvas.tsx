@@ -1,57 +1,62 @@
 import { useRef, useEffect } from "react";
+import { socket } from "../../socket";
+import { clearCanvas, destroyCanvas, drawLine, initCanvas, redrawCanvas, type LineObject } from "./util";
 
 interface CanvasProps {
   color: string;
   lineWidth: number;
+  userID: string;
+  setConnected: (connected: boolean) => void;
 }
 
-const Canvas = ({ color, lineWidth }: CanvasProps) => {
+const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
+  const lineObject = useRef<LineObject>({
+    id: '',
+    userID,
+    timestamp: 0,
+    color,
+    lineWidth,
+    points: [],
+  });
 
   // 1. 캔버스 초기화 및 리사이즈 로직
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (canvas) initCanvas(canvas);
 
-    // 챌린지 요구사항: 반응형 캔버스
-    // 부모 요소의 크기에 맞춰 캔버스의 해상도와 뷰포트가 자동으로 조정되도록 합니다.
-    const resizeCanvas = () => {
-      const parent = canvas.parentElement;
-      if (parent) {
-        // 디바이스 픽셀 비율을 고려하여 선명하게 렌더링합니다.
-        // 리사이즈 시 기존 드로잉이 유지되지 않는 문제를 해결하기 위해
-        // 현재 캔버스의 상태를 저장하고 리사이즈 후 복원합니다.
-        const context = canvas.getContext("2d");
-        const imageData = context?.getImageData(0, 0, canvas.width, canvas.height);
-
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = parent.clientWidth * dpr;
-        canvas.height = parent.clientHeight * dpr;
-        context?.scale(dpr, dpr);
-        if (context && imageData) {
-          context.putImageData(imageData, 0, 0);
-        }
+    socket.on("connect", () => {
+      if (socket.connected && socket.id) {
+        lineObject.current.id = socket.id;
+        setConnected(true);
       }
-    };
+    });
 
-    const resizeObserver = new ResizeObserver(resizeCanvas);
-    if (canvas.parentElement) {
-      resizeObserver.observe(canvas.parentElement);
-    }
-    resizeCanvas(); // 초기 사이즈 설정
-    
-    const context = canvas.getContext("2d");
-    if (context) {
-      context.lineCap = "round";
-    }
+    socket.on("initial-lines", (lines: LineObject[]) => {
+      if (canvas) redrawCanvas(lines, canvas);
+    });
+
+    socket.on("draw-line", (line: LineObject) => {
+      if (!canvas) return;
+      const context = canvas.getContext("2d");
+      if (context) drawLine(line, context);
+    });
+
+    socket.on("disconnect", () => {
+      if (canvas) clearCanvas(canvas);
+      setConnected(false);
+    });
 
     return () => {
-      if (canvas.parentElement) {
-        resizeObserver.unobserve(canvas.parentElement);
+      if (canvas) {
+        destroyCanvas(canvas);
+        socket.off("connect");
+        socket.off("initial-lines");
+        socket.off("draw-line");
       }
     };
-  }, []);
+  }, [setConnected]);
 
   // 2. 드로잉 이벤트 핸들러 등록 로직
   useEffect(() => {
@@ -59,7 +64,7 @@ const Canvas = ({ color, lineWidth }: CanvasProps) => {
     if (!canvas) return;
     const context = canvas.getContext("2d");
     if (!context) return;
-    
+
     // 챌린지 요구사항: 드로잉 로직
     const startDrawing = (event: MouseEvent) => {
       context.strokeStyle = color;
@@ -67,15 +72,26 @@ const Canvas = ({ color, lineWidth }: CanvasProps) => {
       isDrawing.current = true;
       context.beginPath();
       context.moveTo(event.offsetX, event.offsetY);
+
+      lineObject.current.color = color;
+      lineObject.current.lineWidth = lineWidth;
+      lineObject.current.points = [{ x: event.offsetX, y: event.offsetY }];
     };
 
     const draw = (event: MouseEvent) => {
       if (!isDrawing.current) return;
       context.lineTo(event.offsetX, event.offsetY);
       context.stroke();
+
+      lineObject.current.points.push({ x: event.offsetX, y: event.offsetY });
     };
 
     const stopDrawing = () => {
+      if (isDrawing.current) {
+        socket.timeout(5000).emit("draw-line", lineObject.current);
+        lineObject.current.points = [];
+      }
+
       isDrawing.current = false;
       context.closePath();
     };
