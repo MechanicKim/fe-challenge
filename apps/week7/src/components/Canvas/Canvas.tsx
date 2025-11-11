@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { socket } from "../../socket";
-import { clearCanvas, destroyCanvas, drawLine, initCanvas, redrawCanvas, type LineObject } from "./util";
+import { clearCanvas, destroyCanvas, drawLine, initCanvas, redrawCanvas, type Drawings, type LineObject } from "./util";
 
 interface CanvasProps {
   color: string;
@@ -13,13 +13,13 @@ const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
   const lineObject = useRef<LineObject>({
-    id: '',
     userID,
     timestamp: 0,
     color,
     lineWidth,
     points: [],
   });
+  const timerRef = useRef<number | number>(null);
 
   // 1. 캔버스 초기화 및 리사이즈 로직
   useEffect(() => {
@@ -28,12 +28,11 @@ const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
 
     socket.on("connect", () => {
       if (socket.connected && socket.id) {
-        lineObject.current.id = socket.id;
         setConnected(true);
       }
     });
 
-    socket.on("initial-lines", (lines: LineObject[]) => {
+    socket.on("initial-lines", (lines: Drawings) => {
       if (canvas) redrawCanvas(lines, canvas);
     });
 
@@ -73,9 +72,12 @@ const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
       context.beginPath();
       context.moveTo(event.offsetX, event.offsetY);
 
-      lineObject.current.color = color;
-      lineObject.current.lineWidth = lineWidth;
-      lineObject.current.points = [{ x: event.offsetX, y: event.offsetY }];
+      if (socket.connected) {
+        lineObject.current.color = color;
+        lineObject.current.lineWidth = lineWidth;
+        lineObject.current.timestamp = Date.now();
+        lineObject.current.points = [{ x: event.offsetX, y: event.offsetY }];
+      }
     };
 
     const draw = (event: MouseEvent) => {
@@ -83,15 +85,18 @@ const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
       context.lineTo(event.offsetX, event.offsetY);
       context.stroke();
 
-      lineObject.current.points.push({ x: event.offsetX, y: event.offsetY });
+      if (socket.connected) {
+        lineObject.current.points.push({ x: event.offsetX, y: event.offsetY });
+        
+        if (timerRef.current) return;
+        timerRef.current = setTimeout(() => {
+          socket.emit("draw-line", lineObject.current);
+          timerRef.current = null;
+        }, 50);
+      }
     };
 
     const stopDrawing = () => {
-      if (isDrawing.current) {
-        socket.timeout(5000).emit("draw-line", lineObject.current);
-        lineObject.current.points = [];
-      }
-
       isDrawing.current = false;
       context.closePath();
     };

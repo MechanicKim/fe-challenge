@@ -39,9 +39,8 @@ export function destroyCanvas(canvas: HTMLCanvasElement) {
 }
 
 export interface LineObject {
-  id: string;
-  userID: string;
-  timestamp: number;
+  userID?: string;
+  timestamp?: number;
   color: string;
   lineWidth: number;
   points: { x: number; y: number }[];
@@ -67,16 +66,24 @@ export function drawLine(line: LineObject, context: CanvasRenderingContext2D) {
   context.stroke();
 }
 
+export interface Drawings {
+  [key: string]: {
+    [key: number]: LineObject;
+  };
+}
+
 export function redrawCanvas(
-  allDrawings: LineObject[],
+  allDrawings: Drawings,
   canvas: HTMLCanvasElement
 ) {
   const context = canvas.getContext("2d");
   if (!context) return;
 
   context.clearRect(0, 0, canvas.width, canvas.height);
-  allDrawings.forEach((line) => {
-    drawLine(line, context);
+  Object.values(allDrawings).forEach((drawing) => {
+    Object.values(drawing).forEach((line) => {
+      drawLine(line, context);
+    });
   });
 }
 
