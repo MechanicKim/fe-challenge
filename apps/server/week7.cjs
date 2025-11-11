@@ -26,7 +26,9 @@ function listener(socket) {
 
   socket.on("undo", () => {
     if (lines[socket.id]) {
-      const last = Object.keys(lines[socket.id]).pop();
+      const timestamps = Object.keys(lines[socket.id]);
+      timestamps.sort();
+      const last = timestamps.pop();
       delete lines[socket.id][last];
 
       socket.emit("initial-lines", lines);

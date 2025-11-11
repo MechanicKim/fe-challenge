@@ -66,8 +66,8 @@ export function drawLine(line: LineObject, context: CanvasRenderingContext2D) {
 }
 
 export interface Drawings {
-  [key: string]: {
-    [key: number]: LineObject;
+  [id: string]: {
+    [timestamp: number]: LineObject;
   };
 }
 
