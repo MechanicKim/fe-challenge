@@ -24,6 +24,16 @@ function listener(socket) {
     socket.broadcast.emit("initial-lines", lines);
   });
 
+  socket.on("undo", () => {
+    if (lines[socket.id]) {
+      const last = Object.keys(lines[socket.id]).pop();
+      delete lines[socket.id][last];
+
+      socket.emit("initial-lines", lines);
+      socket.broadcast.emit("initial-lines", lines);
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("클라이언트 연결이 끊어졌습니다.");
   });

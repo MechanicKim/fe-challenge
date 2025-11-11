@@ -39,7 +39,6 @@ export function destroyCanvas(canvas: HTMLCanvasElement) {
 }
 
 export interface LineObject {
-  userID?: string;
   timestamp?: number;
   color: string;
   lineWidth: number;

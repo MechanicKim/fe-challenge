@@ -7,8 +7,6 @@ interface ToolbarProps {
   setColor: (color: string) => void;
   lineWidth: number;
   setLineWidth: (width: number) => void;
-  userID: string;
-  setUserID: (userID: string) => void;
   connected: boolean;
 }
 
@@ -17,8 +15,6 @@ const Toolbar: React.FC<ToolbarProps> = ({
   setColor,
   lineWidth,
   setLineWidth,
-  userID,
-  setUserID,
   connected,
 }) => {
   return (
@@ -42,16 +38,20 @@ const Toolbar: React.FC<ToolbarProps> = ({
         />
       </label>
       <label>
-        ID:{" "}
-        <input
-          type="text"
-          value={userID}
-          onChange={(e) => setUserID(e.target.value)}
-        />
         {connected ? (
-          <button type="button" onClick={() => socket.disconnect()}>
-            끊기
-          </button>
+          <>
+            <button type="button" onClick={() => socket.disconnect()}>
+              끊기
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                socket.emit("undo");
+              }}
+            >
+              되돌리기
+            </button>
+          </>
         ) : (
           <button type="button" onClick={() => socket.connect()}>
             연결

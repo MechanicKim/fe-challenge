@@ -5,15 +5,13 @@ import { clearCanvas, destroyCanvas, drawLine, initCanvas, redrawCanvas, type Dr
 interface CanvasProps {
   color: string;
   lineWidth: number;
-  userID: string;
   setConnected: (connected: boolean) => void;
 }
 
-const Canvas = ({ color, lineWidth, userID, setConnected }: CanvasProps) => {
+const Canvas = ({ color, lineWidth, setConnected }: CanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
   const lineObject = useRef<LineObject>({
-    userID,
     timestamp: 0,
     color,
     lineWidth,

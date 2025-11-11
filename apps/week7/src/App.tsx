@@ -5,7 +5,6 @@ import Toolbar from "./components/Toolbar/Toolbar";
 export default function App() {
   const [color, setColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(5);
-  const [userID, setUserID] = useState("ananymous");
   const [connected, setConnected] = useState(false);
 
   return (
@@ -21,11 +20,9 @@ export default function App() {
         setColor={setColor}
         lineWidth={lineWidth}
         setLineWidth={setLineWidth}
-        userID={userID}
-        setUserID={setUserID}
         connected={connected}
       />
-      <Canvas color={color} lineWidth={lineWidth} userID={userID} setConnected={setConnected} />
+      <Canvas color={color} lineWidth={lineWidth} setConnected={setConnected} />
     </div>
   );
 }
