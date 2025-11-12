@@ -1,0 +1,177 @@
+.container {
+  font-family: system-ui, sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #f8f9fa;
+
+  > h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  > p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+  }
+
+  > button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
+
+.features {
+  padding: 60px 20px;
+  text-align: center;
+
+  > h2 {
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+}
+
+.feature {
+  max-width: 300px;
+
+  > h3 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+  }
+
+  > p {
+    color: #616161;
+  }
+
+  > .imagePlaceholder {
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+}
+
+.pricing {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+
+  > h2 {
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+  }
+
+  > div {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .pricingCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    width: 280px;
+    background-color: white;
+
+    > h3 {
+      font-size: 1.4rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+
+    > p {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 20px 0;
+    }
+
+    > ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+
+    > ul > li {
+      padding: 8px 0;
+
+      &.available {
+        color: #616161;
+      }
+
+      &.unavailable {
+        color: #cccccc;
+      }
+    }
+
+    > button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: 1px solid #007bff;
+      color: #007bff;
+      background-color: transparent;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .pricingCard:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+
+    > h3 {
+      color: #007bff;
+    }
+
+    > button {
+      color: white;
+      background-color: #007bff;;
+    }
+  }
+}
+
+.footer {
+  padding: 40px 20px;
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+
+  > div {
+    margin-bottom: 20px;
+
+    > a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+    }
+  }
+
+  > p {
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+}
