@@ -1,9 +1,15 @@
+import Image from "next/image";
 import styles from "./LandingPage.module.css";
 
 export default function Hero() {
   return (
     <header className={styles.hero}>
-      <img src="/images/1981-digital-bMWHu8wU1Vk-unsplash.jpg" />
+      <Image
+        src="/images/1981-digital-bMWHu8wU1Vk-unsplash.jpg"
+        alt="Here background image"
+        fill
+        priority
+      />
       <div>
         <h1>
           혁신적인 솔루션으로 비즈니스를 성장시키세요

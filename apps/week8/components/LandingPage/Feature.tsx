@@ -11,7 +11,7 @@ interface Props {
 export default function Feature({ src, imgAlt, title, description }: Props) {
   return (
     <div className={styles.feature}>
-      <ImagePlaceholder width={300} height={180} src={src} text={imgAlt} />
+      <ImagePlaceholder width={300} height={180} src={src} alt={imgAlt} />
       <h3>{title}</h3>
       <p>{description}</p>
     </div>
