@@ -39,6 +39,10 @@ app.get('/api/week4/users', week4.reqHandler);
 const week7 = require('./week7.cjs');
 io.on('connection', week7.listener);
 
+// Week8 - Next/Nuxt 기반의 고성능 랜딩 페이지 목업 구현
+const week8 = require('./week8.cjs');
+app.get('/api/week8/features', week8.reqHandler);
+
 // 서버 시작
 httpServer.listen(port, () => {
   console.log(`🚀 서버가 http://localhost:${port} 에서 실행 중입니다.`);
