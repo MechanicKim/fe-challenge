@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <header className={styles.hero}>
       <Image
-        src="/images/1981-digital-bMWHu8wU1Vk-unsplash.jpg"
+        src="http://127.0.0.1:3000/images/1981-digital-bMWHu8wU1Vk-unsplash.jpg"
         alt="Here background image"
         fill
         priority

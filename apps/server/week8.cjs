@@ -5,7 +5,7 @@ function reqHandler(req, res) {
       {
         id: 1,
         img: {
-          src: "/images/deng-xiang--WXQm_NTK0U-unsplash.jpg",
+          src: "http://127.0.0.1:3000/images/deng-xiang--WXQm_NTK0U-unsplash.jpg",
           alt: "기능 1 시각 자료",
         },
         title: "실시간 데이터 분석",
@@ -14,7 +14,7 @@ function reqHandler(req, res) {
       {
         id: 2,
         img: {
-          src: "/images/kelly-sikkema-wdnpaTNwOEQ-unsplash.jpg",
+          src: "http://127.0.0.1:3000/images/kelly-sikkema-wdnpaTNwOEQ-unsplash.jpg",
           alt: "기능 2 시각 자료",
         },
         title: "자동화된 워크플로우",
@@ -23,7 +23,7 @@ function reqHandler(req, res) {
       {
         id: 3,
         img: {
-          src: "/images/franck-DoWZMPZ-M9s-unsplash.jpg",
+          src: "http://127.0.0.1:3000/images/franck-DoWZMPZ-M9s-unsplash.jpg",
           alt: "기능 3 시각 자료",
         },
         title: "강력한 보안",
