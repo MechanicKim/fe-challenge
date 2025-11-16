@@ -68,7 +68,3 @@ const validationSchema = {
 1. **커스텀 규칙 등록:** `registerRule(ruleName, validationFunction)`과 같이 외부에서 새로운 검사 규칙을 추가할 수 있는 기능을 구현하여 라이브러리의 확장성을 높입니다.
 2. **비밀번호 일치 확인:** `password` 필드와 `passwordConfirmation` 필드가 일치하는지 확인하는 **필드 간 비교(Cross-Field Validation)** 규칙을 구현합니다.
 3. **디바운스 검사:** 사용자가 입력 중일 때(on `keyup` 또는 `input` 이벤트), 폼 제출 전에 실시간으로 유효성을 검사하되, **`debounce` 함수**를 사용하여 검사 횟수를 제한합니다.
-
-### 📥 제출 및 다음 단계
-
-이 챌린지는 프레임워크의 도움 없이도 복잡한 상태와 규칙을 관리하는 능력을 키워줍니다. 다음 챌린지는 8주차 **Next/Nuxt 기반의 고성능 랜딩 페이지 목업 구현**입니다.
