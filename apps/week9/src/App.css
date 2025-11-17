@@ -1,0 +1,51 @@
+.App {
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.App-header {
+  background-color: #f0f0f0;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.skip-link {
+  margin-right: 1rem;
+  color: #0056b3;
+}
+
+.open-modal-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  margin-top: 1rem;
+}
+
+.open-modal-button:hover {
+  background-color: #0056b3;
+}
+
+.content {
+  line-height: 1.6;
+}
+
+.form-group {
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.form-group input {
+  padding: 8px;
+}
+
+[aria-hidden="true"] {
+  display: none;
+}
