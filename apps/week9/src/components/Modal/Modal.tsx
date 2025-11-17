@@ -5,18 +5,21 @@ import useFocusTrap from "./useFocusTrap";
 interface Props {
   title: string;
   desc: string;
-  onClose: () => void;
+  onClose?: () => void;
+  onConfirm?: () => void;
 }
 
-export default function Modal({ title, desc, onClose }: Props) {
+export default function Modal({ title, desc, onClose, onConfirm }: Props) {
   const { containerRef } = useFocusTrap();
 
   const onClickClose = useCallback(() => {
     if (containerRef.current) {
       containerRef.current.addEventListener(
         "animationend",
-        () => onClose(),
-        { once: true }
+        () => onClose && onClose(),
+        {
+          once: true,
+        }
       );
       containerRef.current.classList.add(styles.close);
     }
@@ -53,6 +56,7 @@ export default function Modal({ title, desc, onClose }: Props) {
         <p>{desc}</p>
         <div>
           <button onClick={onClickClose}>닫기</button>
+          {onConfirm && <button onClick={onConfirm}>확인</button>}
         </div>
       </div>
     </div>
