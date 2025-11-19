@@ -15,10 +15,10 @@
   gap: 8px;
   box-sizing: border-box;
   border-radius: 8px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1rem;
   line-height: 1.5;
-  animation: slideInFromBottom 0.20s ease-out forwards;
+  animation: slideInFromBottom 0.2s ease-out forwards;
   transform: translateY(100%);
   opacity: 0;
 
@@ -29,15 +29,29 @@
     background-color: rgba(255, 255, 255, 0);
     cursor: pointer;
   }
+
+  &.fadeOut {
+    transform: translateY(0);
+    animation: fadeOut 0.2s ease-in-out forwards;
+  }
 }
 
 @keyframes slideInFromBottom {
   from {
-    transform: translateY(100%); 
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translateY(0); 
+    transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }

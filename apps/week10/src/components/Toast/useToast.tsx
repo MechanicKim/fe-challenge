@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export interface ToastQueue {
   id: number;
-  text: string;
+  message: string;
   type: string;
 }
 
@@ -13,13 +13,13 @@ export default function useToast() {
     setToastQueue((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  const addToast = (toast: { text: string; type: string }) => {
+  const addToast = (toast: { message: string; type: string }) => {
     setToastQueue((prev) => {
       return [
         ...prev,
         {
           id: Date.now(),
-          text: toast.text,
+          message: toast.message,
           type: toast.type,
         },
       ];

@@ -4,7 +4,7 @@ import useToast from "./components/Toast/useToast";
 import ToastContainer from "./components/Toast/ToastContainer";
 
 export default function App() {
-  const [toast, setToast] = useState({ text: "", type: "success" });
+  const [toast, setToast] = useState({ message: "Test", type: "success" });
   const { toastQueue, addToast, removeToast } = useToast();
 
   return (
@@ -17,9 +17,9 @@ export default function App() {
             <input
               id="toast-text"
               type="text"
-              value={toast.text}
+              value={toast.message}
               onChange={(e) =>
-                setToast((prev) => ({ ...prev, text: e.target.value }))
+                setToast((prev) => ({ ...prev, message: e.target.value }))
               }
             />
           </label>
@@ -33,20 +33,25 @@ export default function App() {
               }
             >
               <option value="success">성공</option>
-              <option value="error">오류</option>
+              <option value="warning">경고</option>
+              <option value="error">에러</option>
             </select>
           </label>
           <button
             type="button"
             onClick={() => {
-              if (toast.text) addToast(toast);
+              if (toast.message) addToast(toast);
             }}
           >
             알림!
           </button>
         </div>
       </form>
-      <ToastContainer toastQueue={toastQueue} removeToast={removeToast} />
+      <ToastContainer
+        toastQueue={toastQueue}
+        removeToast={removeToast}
+        duration={3000}
+      />
     </>
   );
 }
