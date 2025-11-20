@@ -1,7 +1,5 @@
 .toastContainer {
   position: absolute;
-  left: 16px;
-  bottom: 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -26,8 +24,14 @@
     height: 20px;
     padding: 0;
     border-style: none;
+    color: #FFFFFF;
     background-color: rgba(255, 255, 255, 0);
     cursor: pointer;
+  }
+
+  > button:nth-of-type(1) {
+    margin-left: 12px;
+    font-size: 0.8rem;
   }
 
   &.fadeOut {

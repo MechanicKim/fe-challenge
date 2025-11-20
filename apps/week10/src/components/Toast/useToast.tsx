@@ -4,6 +4,8 @@ export interface ToastQueue {
   id: number;
   message: string;
   type: string;
+  buttonText?: string;
+  callback?: () => void;
 }
 
 export default function useToast() {
@@ -13,7 +15,7 @@ export default function useToast() {
     setToastQueue((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  const addToast = (toast: { message: string; type: string }) => {
+  const addToast = (toast: Omit<ToastQueue, "id">) => {
     setToastQueue((prev) => {
       return [
         ...prev,
@@ -21,6 +23,8 @@ export default function useToast() {
           id: Date.now(),
           message: toast.message,
           type: toast.type,
+          buttonText: toast.buttonText,
+          callback: toast.callback,
         },
       ];
     });

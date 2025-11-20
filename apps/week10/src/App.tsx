@@ -1,10 +1,13 @@
 import { useState } from "react";
 import styles from "./App.module.css";
-import useToast from "./components/Toast/useToast";
+import useToast, { type ToastQueue } from "./components/Toast/useToast";
 import ToastContainer from "./components/Toast/ToastContainer";
 
 export default function App() {
-  const [toast, setToast] = useState({ message: "Test", type: "success" });
+  const [toast, setToast] = useState<Omit<ToastQueue, "id">>({
+    message: "Test",
+    type: "success",
+  });
   const { toastQueue, addToast, removeToast } = useToast();
 
   return (
@@ -40,7 +43,14 @@ export default function App() {
           <button
             type="button"
             onClick={() => {
-              if (toast.message) addToast(toast);
+              if (!toast.message) return;
+              addToast({
+                ...toast,
+                buttonText: "확인",
+                callback: () => {
+                  alert("확인!");
+                },
+              });
             }}
           >
             알림!

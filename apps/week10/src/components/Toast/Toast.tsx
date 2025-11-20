@@ -11,6 +11,8 @@ export interface ToastProps {
   type: string;
   duration: number;
   close: (id: number) => void;
+  buttonText?: string;
+  callback?: () => void;
 }
 
 export default function Toast({
@@ -19,6 +21,8 @@ export default function Toast({
   type,
   duration,
   close,
+  buttonText,
+  callback,
 }: ToastProps) {
   const fromRef = useRef<number>(Date.now());
   const timeRef = useRef<number>(duration);
@@ -74,6 +78,9 @@ export default function Toast({
       {type === "warning" && <WarningIcon />}
       {type === "error" && <ErrorIcon />}
       <span>{message}</span>
+      {buttonText && callback && (
+        <button onClick={callback}>{buttonText}</button>
+      )}
       <Close onClick={() => closeToast()} />
     </div>
   );

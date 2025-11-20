@@ -6,16 +6,25 @@ interface ToastContainerProps {
   toastQueue: ToastQueue[];
   removeToast: (id: number) => void;
   duration: number;
+  pos?: "leftBottom" | "leftTop" | "rightBottom" | "rightTop";
 }
 
 export default function ToastContainer({
   toastQueue,
   removeToast,
   duration,
+  pos = "leftBottom",
 }: ToastContainerProps) {
+  const posStyle = {
+    leftBottom: { left: "16px", bottom: "16px" },
+    leftTop: { left: "16px", top: "16px" },
+    rightBottom: { right: "16px", bottom: "16px" },
+    rightTop: { right: "16px", top: "16px" },
+  }[pos];
+
   return (
-    <div className={styles.toastContainer}>
-      {toastQueue.map(({ id, message, type }) => (
+    <div className={styles.toastContainer} style={posStyle}>
+      {toastQueue.map(({ id, message, type, buttonText, callback }) => (
         <Toast
           key={id}
           id={id}
@@ -23,6 +32,8 @@ export default function ToastContainer({
           type={type}
           duration={duration}
           close={removeToast}
+          buttonText={buttonText}
+          callback={callback}
         />
       ))}
     </div>
