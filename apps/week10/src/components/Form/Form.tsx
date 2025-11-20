@@ -1,0 +1,60 @@
+import { useContext, useState } from "react";
+import styles from "./Form.module.css";
+import type { ToastQueue } from "../Toast/useToast";
+import ToastContext from "../Toast/ToastContext";
+
+export default function Form() {
+  const [toast, setToast] = useState<Omit<ToastQueue, "id">>({
+    message: "Test",
+    type: "success",
+  });
+  const { addToast } = useContext(ToastContext);
+
+  return (
+    <form className={styles.container}>
+        <h2>Toast 컴포넌트 테스트</h2>
+        <div className={styles.form}>
+          <label htmlFor="toast-text">
+            <span>문구</span>
+            <input
+              id="toast-text"
+              type="text"
+              value={toast.message}
+              onChange={(e) =>
+                setToast((prev) => ({ ...prev, message: e.target.value }))
+              }
+            />
+          </label>
+          <label htmlFor="toast-type">
+            <span>타입</span>
+            <select
+              id="toast-type"
+              value={toast.type}
+              onChange={(e) =>
+                setToast((prev) => ({ ...prev, type: e.target.value }))
+              }
+            >
+              <option value="success">성공</option>
+              <option value="warning">경고</option>
+              <option value="error">에러</option>
+            </select>
+          </label>
+          <button
+            type="button"
+            onClick={() => {
+              if (!toast.message) return;
+              addToast({
+                ...toast,
+                buttonText: "확인",
+                callback: () => {
+                  alert("확인!");
+                },
+              });
+            }}
+          >
+            알림!
+          </button>
+        </div>
+      </form>
+  );
+}

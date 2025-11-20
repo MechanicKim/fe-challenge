@@ -1,20 +1,19 @@
-import type { ToastQueue } from "./useToast";
 import styles from "./Toast.module.css";
 import Toast from "./Toast";
+import { useContext } from "react";
+import ToastContext from "./ToastContext";
 
 interface ToastContainerProps {
-  toastQueue: ToastQueue[];
-  removeToast: (id: number) => void;
   duration: number;
   pos?: "leftBottom" | "leftTop" | "rightBottom" | "rightTop";
 }
 
 export default function ToastContainer({
-  toastQueue,
-  removeToast,
   duration,
   pos = "leftBottom",
 }: ToastContainerProps) {
+  const { toastQueue, removeToast } = useContext(ToastContext);
+
   const posStyle = {
     leftBottom: { left: "16px", bottom: "16px" },
     leftTop: { left: "16px", top: "16px" },
