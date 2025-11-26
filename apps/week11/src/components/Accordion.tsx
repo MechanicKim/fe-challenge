@@ -1,0 +1,64 @@
+import { useState } from "react";
+import styles from "./Accordion.module.css";
+import AccordionItem from "./AccordionItem";
+
+interface AccordionProps {
+  multiple: boolean;
+}
+
+export default function Accordion({ multiple }: AccordionProps) {
+  const [content, setContents] = useState([
+    {
+      title: "솔직한 마음을 품는다",
+      content:
+        "솔직한 마음이란 자신의 부족함을 인정하고, 그래서 노력을 기울이는 겸허한 자세이다. 능력이 있거나, 기질이 강하거나, 자아가 강한 사람은 종종 다른사람의 의견을 들으려 하지 않는다. 설령 듣는다 해도 반발한다. 하지만 솔직한 마음으로 다른 사람의 의견을 듣고, 항상 반성하고, 자기 자신을 돌아볼수 있는 사람은 진정으로 성장한다. 이런 마음을 지닌 사람 주위에는 비슷한사람들이 모여들고 하는 일도 수월하게 풀린다. 때로는 듣기 거북한 책망의말을 자신을 성장시킬 교훈으로 받아들이는 겸허한 자세가 필요하다.",
+      fold: true,
+    },
+    {
+      title: "항상 겸손해야 한다",
+      content:
+        "세상이 풍요로워지면서 자기중심적인 가치관을 가지고 자기주장만 내세우는 사람이 늘고 있다. 하지만 사람들이 저마다 그런 사고방식을 가지고 있으면 자아와 자아가 충돌하기만 할 뿐 팀워크가 필요한 일은 해내기 어렵다. 자신의 능력과 작은 성공을 내세워 오만불손해지면 주위 사람들의 협력을 얻기 어려울 뿐만 아니라 스스로의 성장에도 방해가 된다. 구성원들이 나아갈 방향을 정해 좋은 분위기를 유지하면서 가장 효율적인 방법으로 기업을 경영하려면, 겸허한 자세는 정말 중요하다. 구성원들 덕분에 자신도 존재한다는 인식을 바탕으로, 늘 겸손하게 생활해야 한다.",
+      fold: true,
+    },
+    {
+      title: "감사하는 마음을 품는다",
+      content: "직원끼리 화합하지 않으면 고객에게 감동을 주는 물건을 만들기 어렵다. 제품에는 그것을 만드는 사람의 마음이 반영되기 때문이다. 만일 직원 모두 자기만 챙기려는 이기적인 생각을 하면 화합하는 분위기가 사내에 자리잡기 어렵다. 내가 오늘 이 자리에 있는 것, 그리고 마음껏 일할 수 있는 것은 다른 사람들의 도움이 있었기 때문이다. 고객이나 거래처는 물론이고 가족, 직장 등 주위 사람들이 도와주었기에 가능했지 결코 내 힘만으로 여기까지 온 것은 아니다. 이를 잊지 말고 항상 주위 사람들에게 감사하며, 서로에게 믿을 수 있는 동료가 되어 일을 해나가야 한다.",
+      fold: true,
+    }
+  ]);
+
+  return (
+    <div className={styles.container}>
+      {content.map((item, index) => (
+        <AccordionItem
+          key={index}
+          id={`accordion-item-${index}`}
+          title={item.title}
+          content={item.content}
+          fold={item.fold}
+          toggle={() => {
+            if (multiple) {
+              setContents((prev) => {
+                const next = [...prev];
+                next[index].fold = !next[index].fold;
+                return next;
+              });
+            } else {
+              setContents((prev) => {
+                const next = [...prev].map((item) => {
+                  return {
+                    ...item,
+                    fold: true,
+                  };
+                });
+
+                next[index].fold = !item.fold;
+                return next;
+              });
+            }
+          }}
+        />
+      ))}
+    </div>
+  );
+}

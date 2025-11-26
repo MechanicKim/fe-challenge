@@ -1,0 +1,41 @@
+.container {
+  padding: 8px;
+  color: #212121;
+  line-height: 1.5;
+}
+
+.item {
+  > h3 {
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  > [aria-expanded="false"] + p {
+    transition: max-height 0.15s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+  }
+  > [aria-expanded="true"] + p {
+    transition: max-height 0.2s ease-in-out;
+    max-height: 200px;
+    overflow: auto;
+  }
+}
+
+@keyframes unfold {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes fold {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
