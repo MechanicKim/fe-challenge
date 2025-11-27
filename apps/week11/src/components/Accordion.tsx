@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Accordion.module.css";
 import AccordionItem from "./AccordionItem";
 import philosophy from "./content";
@@ -11,7 +11,7 @@ export default function Accordion({ multiple }: AccordionProps) {
   const [content, setContent] = useState(philosophy);
   const ref = useRef<HTMLDivElement>(null);
 
-  function toggle(index: number) {
+  const toggle = useCallback((index: number) => {
     if (multiple) {
       setContent((prev) => {
         const next = [...prev];
@@ -32,7 +32,7 @@ export default function Accordion({ multiple }: AccordionProps) {
         return next;
       });
     }
-  }
+  }, [multiple]);
 
   useEffect(() => {
     const container = ref.current;
@@ -67,7 +67,7 @@ export default function Accordion({ multiple }: AccordionProps) {
         container.removeEventListener("keydown", onKeyDown);
       }
     };
-  }, []);
+  }, [toggle]);
 
   return (
     <div ref={ref} className={styles.container}>
