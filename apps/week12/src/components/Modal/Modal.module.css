@@ -1,0 +1,59 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  } /* 시작 지점 */
+  to {
+    opacity: 1;
+  } /* 끝 지점 */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  } /* 시작 지점 */
+  to {
+    opacity: 0;
+  } /* 끝 지점 */
+}
+
+.body {
+  position: absolute;
+  left: calc(50vw - 150px);
+  top: 25vh;
+  width: 300px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #212121;
+  line-height: 1.5;
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  animation: fadeIn 0.15s ease-out forwards;
+
+  &.close {
+    animation: fadeOut 0.1s ease-out forwards;
+  }
+
+  > h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  > div {
+    display: flex;
+    gap: 12px;
+
+    > button {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 1rem;
+      border-style: none;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #e0e0e0;
+    }
+  }
+}
