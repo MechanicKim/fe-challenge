@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useContext } from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
+import ModalContext from "./components/Modal/ModalContext";
 
 export default function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { modalQueue } = useContext(ModalContext);
+  const isModalOpen = modalQueue.length > 0;
+  const className = ["App", isModalOpen && "hidden"].filter(Boolean).join(" ");
 
   return (
     <>
-      <main className="App" id="main-content" aria-hidden={isModalOpen}>
-        <Header isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <main className={className} id="main-content">
+        <Header />
         <section className="content">
           <h2>페이지 콘텐츠</h2>
           <p>

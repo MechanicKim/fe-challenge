@@ -1,38 +1,20 @@
-import { createPortal } from "react-dom";
-import Modal from "../Modal/Modal";
-import useModal from "../Modal/useModal";
+import { useContext } from "react";
+import ModalContext from "../Modal/ModalContext";
 
-interface Modal {
-  title: string;
-  desc: string;
-  onClose: () => void;
-  onConfirm?: () => void;
-}
-
-interface Props {
-  isModalOpen: boolean;
-  setIsModalOpen: (isModalOpen: boolean) => void;
-}
-
-export default function Header({ setIsModalOpen }: Props) {
-  const { modals, openModal } = useModal();
-  const modal = modals[modals.length - 1];
+export default function Header() {
+  const { addModal } = useContext(ModalContext);
 
   const onClickOpenModal = () => {
-    openModal({
+    addModal({
       title: "첫 번째 모달",
       desc: "반갑습니다.",
-      onClose: () => {
-        setIsModalOpen(false);
-      },
       onConfirm: () => {
-        openModal({
+        addModal({
           title: "두 번째 모달",
           desc: "반갑습니다.",
         });
       },
     });
-    setIsModalOpen(true);
   };
 
   return (
@@ -46,17 +28,6 @@ export default function Header({ setIsModalOpen }: Props) {
           모달 열기
         </button>
       </header>
-      {modal &&
-        createPortal(
-          <Modal
-            key={modal.id}
-            title={modal.title}
-            desc={modal.desc}
-            onClose={modal.onClose}
-            onConfirm={modal.onConfirm}
-          />,
-          document.body
-        )}
     </>
   );
 }

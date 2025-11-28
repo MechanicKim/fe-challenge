@@ -46,6 +46,6 @@
   padding: 8px;
 }
 
-[aria-hidden="true"] {
+.hidden {
   display: none;
 }

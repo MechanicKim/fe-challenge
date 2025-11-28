@@ -1,29 +1,26 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import styles from "./Modal.module.css";
 import useFocusTrap from "./useFocusTrap";
+import ModalContext from "./ModalContext";
 
-interface Props {
-  title: string;
-  desc: string;
-  onClose?: () => void;
-  onConfirm?: () => void;
-}
-
-export default function Modal({ title, desc, onClose, onConfirm }: Props) {
+export default function Modal() {
+  const { modalQueue, removeModal } = useContext(ModalContext);
   const { containerRef } = useFocusTrap();
+
+  const modal = modalQueue[modalQueue.length - 1];
 
   const onClickClose = useCallback(() => {
     if (containerRef.current) {
       containerRef.current.addEventListener(
         "animationend",
-        () => onClose && onClose(),
+        () => removeModal(modal.id),
         {
           once: true,
         }
       );
       containerRef.current.classList.add(styles.close);
     }
-  }, [containerRef, onClose]);
+  }, [containerRef, removeModal, modal]);
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -39,8 +36,11 @@ export default function Modal({ title, desc, onClose, onConfirm }: Props) {
     };
   }, [onClickClose]);
 
+  if (!modal) return null;
+
   return (
     <div
+      key={modal.id}
       ref={containerRef}
       className={styles.backdrop}
       tabIndex={-1}
@@ -52,11 +52,11 @@ export default function Modal({ title, desc, onClose, onConfirm }: Props) {
           e.stopPropagation();
         }}
       >
-        <h1>{title}</h1>
-        <p>{desc}</p>
+        <h1>{modal.title}</h1>
+        <p>{modal.desc}</p>
         <div>
           <button onClick={onClickClose}>닫기</button>
-          {onConfirm && <button onClick={onConfirm}>확인</button>}
+          {modal.onConfirm && <button onClick={modal.onConfirm}>확인</button>}
         </div>
       </div>
     </div>

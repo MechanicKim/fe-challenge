@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface Modal {
-  id?: number;
+  id: number;
   title: string;
   desc: string;
   onClose?: () => void;
@@ -9,27 +9,32 @@ interface Modal {
 }
 
 export default function useModal() {
-  const [modals, setModals] = useState<Modal[]>([]);
+  const [modalQueue, setModalQueue] = useState<Modal[]>([]);
 
-  function closeModal(id: number) {
-    setModals((prev) => prev.filter((modal) => modal.id !== id));
-  }
+  const removeModal = (id: number) => {
+    setModalQueue((prev) => prev.filter((modal) => modal.id !== id));
+  };
+
+  const addModal = (modal: Omit<Modal, "id">) => {
+    const id = Date.now();
+    setModalQueue((prev) => [
+      ...prev,
+      {
+        id,
+        title: modal.title,
+        desc: modal.desc,
+        onClose: () => {
+          if (modal.onClose) modal.onClose();
+          removeModal(id);
+        },
+        onConfirm: modal.onConfirm,
+      },
+    ]);
+  };
 
   return {
-    modals,
-    openModal: (modal: Modal) => {
-      const id = Date.now();
-      setModals((prev) => [
-        ...prev,
-        {
-          id,
-          ...modal,
-          onClose: () => {
-            closeModal(id);
-            if (modal.onClose) modal.onClose();
-          },
-        },
-      ]);
-    },
+    modalQueue,
+    addModal,
+    removeModal,
   };
 }
