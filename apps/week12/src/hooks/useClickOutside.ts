@@ -19,6 +19,6 @@ export default function useClickOutside({ ref, callback }: Props) {
 
     return () => {
       document.removeEventListener("click", onMouseDown);
-    }
+    };
   }, [ref, callback]);
 }
